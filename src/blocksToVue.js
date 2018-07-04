@@ -3,6 +3,10 @@ const {blocksToNodes} = require('@sanity/block-content-to-hyperscript/internals'
 const getSerializers = require('./serializers')
 const transformProperties = require('./transformProperties')
 
+const isVueComponent = block =>
+  block.hasOwnProperty('template') ||
+  (block.hasOwnProperty('render') && typeof block.render === 'function')
+
 function blocksToVue(createElement, options) {
   const renderNode = (serializer, properties, children) => {
     let props = properties || {}
@@ -16,11 +20,10 @@ function blocksToVue(createElement, options) {
 
     const tag = serializer
     const childNodes = props.children || children
-
     // @TODO This isn't ideal but needed for passing tests
     props = transformProperties(props)
-    // If we have a Vue component ...
-    if (serializer.render && typeof serializer.render === 'function') {
+
+    if (isVueComponent(serializer)) {
       props = props.node
     }
 
