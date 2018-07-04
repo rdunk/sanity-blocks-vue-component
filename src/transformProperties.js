@@ -8,9 +8,7 @@ const transformProperties = props => {
   if (!props) return null
   if (isEmpty(props)) return {}
 
-  const properties = {
-    attrs: {}
-  }
+  const properties = {}
 
   const addToAttributes = (key, value) => {
     if (!properties.attrs) properties.attrs = {}
