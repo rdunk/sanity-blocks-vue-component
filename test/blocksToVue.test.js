@@ -37,9 +37,7 @@ const normalizeHtml = html =>
     })
 
 const normalize = html => {
-  // Vue requires at least one root element
-  // We can't render an empty string
-  if (html === undefined) return ''
+  if (html === '') return undefined
   return normalizeHtml(html)
 }
 
