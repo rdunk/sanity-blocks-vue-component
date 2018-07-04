@@ -1,6 +1,6 @@
 {
   "name": "sanity-blocks-vue-component",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Vue component for transforming Sanity block content",
   "main": "lib/BlockContent.js",
   "umd": "umd/blocksVueComponent.min.js",
