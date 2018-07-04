@@ -38,9 +38,13 @@ const normalizeHtml = html =>
       return ` style="${style}"`
     })
 
+const normalizeAttributeOrder = html => html.replace(/(class=".*?") (href=".*?")/gm, '$2 $1')
+
 const normalize = html => {
   if (html === '') return undefined
-  return normalizeHtml(html)
+  let output = normalizeHtml(html)
+  output = normalizeAttributeOrder(output)
+  return output
 }
 
 runTests({
