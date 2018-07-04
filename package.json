@@ -2,7 +2,9 @@
   "name": "sanity-blocks-vue-component",
   "version": "0.0.1",
   "description": "Vue component for transforming Sanity block content",
-  "main": "BlockContent.js",
+  "main": "lib/BlockContent.js",
+  "umd": "umd/blocksVueComponent.min.js",
+  "unpkg": "umd/blocksVueComponent.min.js",
   "scripts": {
     "browserify": "NODE_ENV=production BROWSERIFY_ENV=build DEBUG='' browserify -t envify -g uglifyify lib/BlockContent.js -o umd/blocksVueComponent.js --standalone=blocksVueComponent",
     "build": "npm run clean && npm run compile && npm run browserify && npm run minify",
