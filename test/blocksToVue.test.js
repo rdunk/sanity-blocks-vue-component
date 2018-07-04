@@ -55,11 +55,11 @@ describe('vue', () => {
     {
       _type: 'vueComponent',
       _key: '3l37kf8jq1b4',
-      foo: 'Foo!',
-      bar: 'Bar!'
+      foo: 'foo!',
+      bar: 'bar!'
     }
   ]
-  const output = ['<div>Foo! / Bar!</div>'].join('')
+  const output = ['<div>foo!bar!</div>'].join('')
   const types = {vueComponent}
   const result = render({
     blocks: input,

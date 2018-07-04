@@ -1,6 +1,16 @@
 const component = {
+  props: {
+    foo: {
+      type: String,
+      required: true
+    },
+    bar: {
+      type: String,
+      required: true
+    }
+  },
   render(createElement) {
-    return createElement('div', {}, 'Foo! / Bar!')
+    return createElement('div', {}, [this.foo, this.bar])
   }
 }
 
