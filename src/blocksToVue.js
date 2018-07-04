@@ -1,7 +1,6 @@
 const objectAssign = require('object-assign')
 const {blocksToNodes} = require('@sanity/block-content-to-hyperscript/internals')
 const getSerializers = require('./serializers')
-const transformProperties = require('./transformProperties')
 
 const isVueComponent = block =>
   block.hasOwnProperty('template') ||
@@ -20,11 +19,9 @@ function blocksToVue(createElement, options) {
 
     const tag = serializer
     const childNodes = props.children || children
-    // @TODO This isn't ideal but needed for passing tests
-    props = transformProperties(props)
 
     if (isVueComponent(serializer)) {
-      props = props.node
+      props = {props: props.node}
     }
 
     return createElement(tag, props, childNodes)

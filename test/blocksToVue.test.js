@@ -6,11 +6,13 @@ const transformProperties = require('../src/transformProperties')
 const vueComponent = require('./Component')
 
 const h = (span, props, children) => {
+  // The test props are written for Hyperscript/React, so transform for Vue
   const properties = transformProperties(props)
   // Create a component object with a render function
+  const childNodes = Array.isArray(children) ? children : [children]
   const component = {
     render(createElement) {
-      return createElement(span, properties, children)
+      return createElement(span, properties, childNodes)
     }
   }
   return mount(component).vm._vnode

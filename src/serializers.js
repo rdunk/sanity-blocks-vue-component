@@ -92,7 +92,9 @@ module.exports = h => {
     return h(
       'a',
       {
-        href: props.mark.href
+        attrs: {
+          href: props.mark.href
+        }
       },
       props.children
     )
@@ -100,7 +102,9 @@ module.exports = h => {
 
   function ImageSerializer(props) {
     const img = h('img', {
-      src: getImageUrl(props)
+      attrs: {
+        src: getImageUrl(props)
+      }
     })
     return props.isInline ? img : h('figure', null, [img])
   }
@@ -153,6 +157,17 @@ module.exports = h => {
     link: LinkSerializer
   }
 
+  function ContainerSerializer(props) {
+    let properties = null
+    const containerClass = props.className
+    if (containerClass) {
+      properties = {
+        class: containerClass
+      }
+    }
+    return h('div', properties, props.children)
+  }
+
   const defaultSerializers = {
     // Common overrides
     types: {
@@ -169,7 +184,7 @@ module.exports = h => {
     span: SpanSerializer,
     hardBreak: HardBreakSerializer,
 
-    container: 'div',
+    container: ContainerSerializer,
 
     // When we can't resolve the mark properly, use this renderer as the container
     markFallback: 'span',
