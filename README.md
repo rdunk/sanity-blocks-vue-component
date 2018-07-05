@@ -54,8 +54,16 @@ The following props can be passed to the component.
 |`blocks`|Yes|Block text retreived from Sanity.|Array, Object|
 |`serializers`|No|Any required custom serializers.|Object|
 |`className`|No|The class applied to any container element if present.|String|
+|`projectId`|No|ID of the Sanity project.|String|
 |`dataset`|No|Name of the Sanity dataset containing the document that is being rendered.|String|
 |`imageOptions`|No|Query parameters to apply in image blocks to control size/crop mode etc.|Object|
+
+## Component Serializers
+
+When using custom Vue components as serializers, all properties of the block object will be passed as props. Components will also be passed a `_sanityProps` prop which is an object with two properties:
+- `node` - the block data object.
+- `options` - Sanity specific options (`projectId`, `dataset`, `imageOptions`) passed to the root component.
+This additional prop can be useful for generate image URLs using the [@sanity/image-url](https://github.com/sanity-io/sanity/tree/next/packages/%40sanity/image-url) package.
 
 ## Credits
 
