@@ -28,7 +28,7 @@ function blocksToVue(createElement, options) {
           options: props.options
         }
       }
-      const allProps = objectAssign(vueProps, sanityProps)
+      const allProps = objectAssign({}, vueProps, sanityProps)
       props = {
         props: allProps
       }
