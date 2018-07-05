@@ -3,7 +3,6 @@ const runTests = require('@sanity/block-content-tests')
 const {getImageUrl} = require('@sanity/block-content-to-hyperscript/internals')
 const BlockContent = require('../src/BlockContent')
 const transformProperties = require('../src/transformProperties')
-const vueComponent = require('./Component')
 
 const h = (span, props, children) => {
   // The test props are written for Hyperscript/React, so transform for Vue
@@ -55,23 +54,14 @@ runTests({
 })
 
 describe('vue', () => {
-  const input = [
-    {
-      _type: 'vueComponent',
-      _key: '3l37kf8jq1b4',
-      foo: 'foo!',
-      bar: 'bar!'
-    }
-  ]
-  const output = ['<div>foo!bar!</div>'].join('')
-  const types = {vueComponent}
-  const result = render({
-    blocks: input,
-    serializers: {
-      types
-    }
-  })
   test('can use vue component as serializer', () => {
+    const {input, output} = require('./tests/001-vue-serializer')
+    const result = render(input)
+    expect(result).toEqual(output)
+  })
+  test('passes options and node to vue component serializers', () => {
+    const {input, output} = require('./tests/002-pass-options')
+    const result = render(input)
     expect(result).toEqual(output)
   })
 })
