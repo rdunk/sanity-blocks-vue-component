@@ -21,14 +21,16 @@ function blocksToVue(createElement, options) {
     const childNodes = props.children || children
 
     if (isVueComponent(serializer)) {
-      props = {
-        props: {
-          _sanityProps: {
-            node: props.node,
-            options: props.options
-          },
-          ...props.node
+      const vueProps = props.node
+      const sanityProps = {
+        _sanityProps: {
+          node: props.node,
+          options: props.options
         }
+      }
+      const allProps = objectAssign(vueProps, sanityProps)
+      props = {
+        props: allProps
       }
     }
 
