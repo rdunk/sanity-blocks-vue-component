@@ -65,7 +65,7 @@ When using custom Vue components as serializers, all properties of the block obj
 - `node` - the block data object.
 - `options` - Sanity specific options (`projectId`, `dataset`, `imageOptions`) passed to the root component.
 
-This additional prop can be useful for generate image URLs using the [@sanity/image-url](https://github.com/sanity-io/sanity/tree/next/packages/%40sanity/image-url) package.
+This additional prop can be useful for generating image URLs using the [@sanity/image-url](https://github.com/sanity-io/sanity/tree/next/packages/%40sanity/image-url) package.
 
 ## Credits
 
