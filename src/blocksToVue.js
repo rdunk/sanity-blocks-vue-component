@@ -21,7 +21,15 @@ function blocksToVue(createElement, options) {
     const childNodes = props.children || children
 
     if (isVueComponent(serializer)) {
-      props = {props: props.node}
+      props = {
+        props: {
+          _sanityProps: {
+            node: props.node,
+            options: props.options
+          },
+          ...props.node
+        }
+      }
     }
 
     return createElement(tag, props, childNodes)
