@@ -19,11 +19,11 @@
   "author": "Rupert Dunk <rupert@rupertdunk.com> (http://rupertdunk.com)",
   "license": "MIT",
   "dependencies": {
-    "@sanity/block-content-to-hyperscript": "^1.3.6",
+    "@sanity/block-content-to-hyperscript": "^2.0.0",
     "object-assign": "^4.1.1"
   },
   "devDependencies": {
-    "@sanity/block-content-tests": "0.0.11",
+    "@sanity/block-content-tests": "^0.1.0",
     "@vue/test-utils": "^1.0.0-beta.20",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
