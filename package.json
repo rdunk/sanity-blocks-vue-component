@@ -37,6 +37,14 @@
     "vue-server-renderer": "^2.5.16",
     "vue-template-compiler": "^2.5.16"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rdunk/sanity-blocks-vue-component.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rdunk/sanity-blocks-vue-component/issues"
+  },
+  "homepage": "https://github.com/rdunk/sanity-blocks-vue-component#readme",
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.js"
