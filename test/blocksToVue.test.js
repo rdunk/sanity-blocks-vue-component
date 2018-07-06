@@ -2,7 +2,7 @@ const {mount} = require('@vue/test-utils')
 const runTests = require('@sanity/block-content-tests')
 const {getImageUrl} = require('@sanity/block-content-to-hyperscript/internals')
 const BlockContent = require('../src/BlockContent')
-const transformProperties = require('../src/transformProperties')
+const transformProperties = require('./transformProperties')
 
 const h = (span, props, children) => {
   // The test props are written for Hyperscript/React, so transform for Vue
