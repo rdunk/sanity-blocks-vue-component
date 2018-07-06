@@ -60,12 +60,16 @@ The following props can be passed to the component.
 
 ## Component Serializers
 
-When using custom Vue components as serializers, all properties of the block object will be passed as props. Components will also be passed a `_sanityProps` prop which is an object with two properties:
+### For Blocks
+When using custom Vue components as block serializers, all properties of the block object will be passed as props. Components will also be passed a `_sanityProps` prop which is an object with two properties:
 
 - `node` - the block data object.
 - `options` - Sanity specific options (`projectId`, `dataset`, `imageOptions`) passed to the root component.
 
 This additional prop can be useful for generating image URLs using the [@sanity/image-url](https://github.com/sanity-io/sanity/tree/next/packages/%40sanity/image-url) package.
+
+### For Marks
+When using custom Vue components as mark serializers, all properties of the mark object will be passed as props. You can use [slots](https://vuejs.org/v2/guide/components-slots.html) (e.g. `this.$slots.default`) to access the mark text or content.
 
 ## Credits
 
