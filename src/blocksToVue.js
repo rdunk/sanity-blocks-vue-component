@@ -3,8 +3,8 @@ const {blocksToNodes} = require('@sanity/block-content-to-hyperscript/internals'
 const getSerializers = require('./serializers')
 
 const isVueComponent = block =>
-  block.hasOwnProperty('template') ||
-  (block.hasOwnProperty('render') && typeof block.render === 'function')
+  Object.hasOwnProperty.call(block, 'template') ||
+  (Object.hasOwnProperty.call(block, 'render') && typeof block.render === 'function')
 
 function blocksToVue(createElement, options) {
   const renderNode = (serializer, properties, children) => {
