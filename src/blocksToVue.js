@@ -8,33 +8,37 @@ const isVueComponent = block =>
 
 function blocksToVue(createElement, options) {
   const renderNode = (serializer, properties, children) => {
-    let props = properties || {}
+    let data = properties || {}
     if (typeof serializer === 'function') {
       return serializer(
-        objectAssign({}, props, {
+        objectAssign({}, data, {
           children
         })
       )
     }
 
     const tag = serializer
-    const childNodes = props.children || children
+    const childNodes = data.children || children
 
     if (isVueComponent(serializer)) {
-      const vueProps = props.node
-      const sanityProps = {
-        _sanityProps: {
-          node: props.node,
-          options: props.options
+      let vueProps = {}
+      let sanityProps = {}
+      if (data.mark) {
+        // If rendering a mark, we just pass the mark properties
+        vueProps = data.mark
+      } else {
+        // If rendering a node, also pass options and original node
+        vueProps = data.node
+        sanityProps._sanityProps = {
+          node: data.node,
+          options: data.options
         }
       }
-      const allProps = objectAssign({}, vueProps, sanityProps)
-      props = {
-        props: allProps
-      }
+      const props = objectAssign({}, vueProps, sanityProps)
+      data = {props}
     }
 
-    return createElement(tag, props, childNodes)
+    return createElement(tag, data, childNodes)
   }
 
   const {defaultSerializers, serializeSpan} = getSerializers(renderNode)

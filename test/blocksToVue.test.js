@@ -64,4 +64,9 @@ describe('vue', () => {
     const result = render(input)
     expect(result).toEqual(output)
   })
+  test('can use vue component as mark', () => {
+    const {input, output} = require('./tests/003-vue-mark')
+    const result = render(input)
+    expect(result).toEqual(output)
+  })
 })
