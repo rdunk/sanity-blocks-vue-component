@@ -18,8 +18,8 @@ function blocksToVue(createElement, options) {
     }
 
     const tag = serializer
-    const childNodes = data.children || children
-
+    let childNodes = data.children || children
+    childNodes = Array.isArray(childNodes) ? childNodes : [childNodes]
     if (isVueComponent(serializer)) {
       let vueProps = {}
       let sanityProps = {}

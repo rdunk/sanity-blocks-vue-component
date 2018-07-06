@@ -45,12 +45,16 @@ module.exports = h => {
   // Low-level list serializer
   function ListSerializer(props) {
     const tag = props.type === 'bullet' ? 'ul' : 'ol'
-    return h(tag, {}, props.children)
+    return h(tag, null, props.children)
   }
 
   // Low-level list item serializer
   function ListItemSerializer(props) {
-    return h('li', null, props.children)
+    const children =
+      !props.node.style || props.node.style === 'normal' // Don't wrap plain text in paragraphs inside of a list item
+        ? props.children // But wrap any other style in whatever the block serializer says to use
+        : h(props.serializers.types.block, props, props.children)
+    return h('li', null, children)
   }
 
   // Renderer of an actual block of type `block`. Confusing, we know.
@@ -106,7 +110,7 @@ module.exports = h => {
         src: getImageUrl(props)
       }
     })
-    return props.isInline ? img : h('figure', null, [img])
+    return props.isInline ? img : h('figure', null, img)
   }
 
   // Serializer that recursively calls itself, producing a hyperscript tree of spans
@@ -193,7 +197,6 @@ module.exports = h => {
     text: undefined,
 
     // Empty nodes (React uses null, hyperscript with empty strings)
-    // empty: () => h('div', {}, '')
     empty: null
   }
 
