@@ -14,7 +14,7 @@ npm install --save sanity-blocks-vue-component
 
 ```js
 import BlockContent from 'sanity-blocks-vue-component'
-Vue.component(BlockContent);
+Vue.component('block-content', BlockContent);
 ```
 
 ## Usage
