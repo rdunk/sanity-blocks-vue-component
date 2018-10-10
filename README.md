@@ -52,11 +52,24 @@ The following props can be passed to the component.
 |Prop|Required|Description|Type|
 |:---|---|---|---|
 |`blocks`|Yes|Block text retreived from Sanity.|Array, Object|
-|`serializers`|No|Any required custom serializers.|Object|
-|`className`|No|The class applied to any container element if present.|String|
+|`serializers`|No|Any required custom serializers, see below for more detail.|Object|
+|`className`|No|The class applied to any container element if present. Ignored if a custom container serializer is passed.|String|
 |`projectId`|No|ID of the Sanity project.|String|
 |`dataset`|No|Name of the Sanity dataset containing the document that is being rendered.|String|
 |`imageOptions`|No|Query parameters to apply in image blocks to control size/crop mode etc.|Object|
+|`renderContainerOnSingleChild`|No|Set true to enforce a container element for single block input data.|Boolean|
+
+## Serializer Property
+Serializers are the functions used for rendering block content. They can be defined either as a string (e.g. `div`) or as a Vue Component (see below for more detail). This package comes with default serializers that will work for rendering basic block content, but you may pass a `serializer` prop to override or extend the default serializers. The object passed will be merged with the default serializers object.
+
+|Property|Description|
+|:---|---|
+|`types`|Object of serializers for block types.|
+|`marks`|Object of serializers for marks.|
+|`list`|Serializer for list containers.|
+|`listItem`|Serializer for list items.|
+|`hardBreak`|Serializer for hard breaks.|
+|`container`|Serializer for the element used to wrap the blocks.|
 
 ## Component Serializers
 
