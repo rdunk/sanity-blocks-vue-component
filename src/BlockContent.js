@@ -26,6 +26,10 @@ const component = {
     className: {
       type: String,
       default: undefined
+    },
+    renderContainerOnSingleChild: {
+      type: Boolean,
+      default: false
     }
   },
   render(createElement, context = {}) {

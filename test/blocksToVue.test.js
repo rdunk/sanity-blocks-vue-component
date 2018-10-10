@@ -69,4 +69,9 @@ describe('vue', () => {
     const result = render(input)
     expect(result).toEqual(output)
   })
+  test('can set custom container element', () => {
+    const {input, output} = require('./tests/004-container')
+    const result = render(input)
+    expect(result).toEqual(output)
+  })
 })
