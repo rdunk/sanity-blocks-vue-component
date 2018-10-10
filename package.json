@@ -19,23 +19,23 @@
   "author": "Rupert Dunk <rupert@rupertdunk.com> (http://rupertdunk.com)",
   "license": "MIT",
   "dependencies": {
-    "@sanity/block-content-to-hyperscript": "^2.0.0",
+    "@sanity/block-content-to-hyperscript": "^2.0.5",
     "object-assign": "^4.1.1"
   },
   "devDependencies": {
-    "@sanity/block-content-tests": "^0.1.0",
-    "@vue/test-utils": "^1.0.0-beta.20",
+    "@sanity/block-content-tests": "^0.2.0",
+    "@vue/test-utils": "^1.0.0-beta.25",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "browserify": "^16.2.2",
+    "browserify": "^16.2.3",
     "envify": "^4.1.0",
-    "jest": "^23.2.0",
+    "jest": "^23.6.0",
     "rimraf": "^2.6.2",
-    "uglify-js": "^3.4.3",
+    "uglify-js": "^3.4.9",
     "uglifyify": "^5.0.1",
-    "vue": "^2.5.16",
-    "vue-server-renderer": "^2.5.16",
-    "vue-template-compiler": "^2.5.16"
+    "vue": "^2.5.17",
+    "vue-server-renderer": "^2.5.17",
+    "vue-template-compiler": "^2.5.17"
   },
   "repository": {
     "type": "git",
