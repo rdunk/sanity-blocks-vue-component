@@ -5,10 +5,10 @@ A Vue component for rendering [block text](https://www.sanity.io/docs/schema-typ
 ## Contents
 
 - [Installing](#installing)
-- [Usage](#usage)
+- [Basic Usage](#basic-usage)
 - [Props](#props)
-- [Serializer Property](serializer-property)
-- [Component Serializers](component-serializers)
+- [Serializer Property](#serializer-property)
+- [Component Serializers](#component-serializers)
 - [Full Example](#full-example)
 - [Credits](#credits)
 - [License](#license)
@@ -28,7 +28,7 @@ import BlockContent from 'sanity-blocks-vue-component'
 Vue.component('block-content', BlockContent);
 ```
 
-## Usage
+## Basic Usage
 
 Basic usage in a single file component, see the [full example](#full-example) below for more detail.
 
