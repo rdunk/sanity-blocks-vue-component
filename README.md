@@ -98,11 +98,25 @@ This additional prop can be useful for generating image URLs using the [@sanity/
 ### For Marks
 When using custom Vue components as mark serializers, all properties of the block object will be passed via [`v-bind`](https://vuejs.org/v2/api/#v-bind). **To access the data, define the corresponding [props](https://vuejs.org/v2/guide/components-props.html) in your component**. You can use [slots](https://vuejs.org/v2/guide/components-slots.html) (e.g. `this.$slots.default`) to access the mark text or content.
 
+#### Functional Components
+If your mark serializer is purely presentational (no reactive data, no lifecycle methods), you may want to use a [functional component](https://vuejs.org/v2/guide/render-function.html#Functional-Components) instead for better performance. When using functional components, you can access the properties on the `props` object. The mark text or content will available on the `children` array.
+
+For example, simple external links are a good candidate for a functional component:
+```vue
+<template functional>
+  <a :href="props.href"
+     target="_blank"
+     rel="noopener">
+     {{ children[0].text }}
+  </a>
+</template>
+```
+
 ## Full Example
 
 #### MainComponent.vue
 
-```html
+```vue
 <template>
   <block-content
   :blocks="blocks" 
