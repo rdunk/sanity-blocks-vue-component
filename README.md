@@ -102,7 +102,7 @@ When using custom Vue components as mark serializers, all properties of the bloc
 If your mark serializer is purely presentational (no reactive data, no lifecycle methods), you may want to use a [functional component](https://vuejs.org/v2/guide/render-function.html#Functional-Components) instead for better performance. When using functional components, you can access the properties on the `props` object. The mark text or content will available on the `children` array.
 
 For example, simple external links are a good candidate for a functional component:
-```vue
+```html
 <template functional>
   <a :href="props.href"
      target="_blank"
@@ -116,7 +116,7 @@ For example, simple external links are a good candidate for a functional compone
 
 #### MainComponent.vue
 
-```vue
+```html
 <template>
   <block-content
   :blocks="blocks" 
