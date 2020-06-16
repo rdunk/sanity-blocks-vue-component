@@ -107,7 +107,7 @@ For example, simple external links are a good candidate for a functional compone
   <a :href="props.href"
      target="_blank"
      rel="noopener">
-     {{ children[0].text }}
+     <slot />
   </a>
 </template>
 ```
