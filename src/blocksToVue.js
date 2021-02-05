@@ -28,7 +28,7 @@ function blocksToVue(createElement, options) {
         vueProps = data.mark
       } else {
         // If rendering a node, also pass options and original node
-        vueProps = data.node
+        vueProps = data.node || data
         sanityProps._sanityProps = {
           node: data.node,
           options: data.options
