@@ -6,6 +6,7 @@ const pkg = require('./package.json');
 const createConfig = (file, format, plugins = []) => ({
   input: 'src/index.ts',
   output: { file, format },
+  external: Object.keys(pkg.dependencies),
   plugins: [
     ts({
       tsconfig: 'tsconfig.json',
