@@ -1,6 +1,6 @@
 {
   "name": "sanity-blocks-vue-component",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Vue 3 component for transforming Sanity block content",
   "author": "Rupert Dunk <rupert@rupertdunk.com> (http://rupertdunk.com)",
   "license": "MIT",
@@ -14,7 +14,7 @@
   "homepage": "https://github.com/rdunk/sanity-blocks-vue-component#readme",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
-  "types": "dist/index.ts.js",
+  "types": "dist/index.d.js",
   "scripts": {
     "build": "npm run clean && npm run build:pkg",
     "build:pkg": "rollup -c rollup.config.js",
