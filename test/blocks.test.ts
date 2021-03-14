@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { SanityBlocks } from '..';
+import { SanityBlocks } from '../src';
 
 const content = [
   {
