@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue';
 import { mount } from '@vue/test-utils';
-import { SanityBlocks } from '..';
+import { SanityBlocks } from '../src';
 
 test('custom type serializer with template', () => {
   const wrapper = mount(SanityBlocks, {
