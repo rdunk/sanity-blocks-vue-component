@@ -17,9 +17,16 @@ export interface BlockSpan extends BaseBlock {
 
 export interface BlockText extends BaseBlock {
   _type: 'block';
+  children: Array<BlockSpan>;
+  markDefs: MarkDefinition[];
+  style: string;
+}
+
+export interface BlockListItem extends BaseBlock {
+  _type: 'block';
   children: Array<Block | BlockSpan>;
-  level?: number;
-  listItem?: string;
+  level: number;
+  listItem: string;
   markDefs: MarkDefinition[];
   style: string;
 }
@@ -38,8 +45,8 @@ export interface BlockList {
 
 export type SerializedNode = string | VNode;
 
-export type BlockSerializer = (
-  block: Block,
+export type BlockSerializer<T = Block> = (
+  block: T,
   serializers: Serializers
 ) => SerializedNode | SerializedNode[];
 
@@ -58,17 +65,24 @@ export type Serializer =
   | string
   | DefineComponent
   | SpanSerializer
-  | BlockSerializer
+  | BlockSerializer<Block>
+  | BlockSerializer<BlockText>
+  | BlockSerializer<BlockListItem>
   | MarkSerializer;
 
 export type DynamicSerializer<T> = string | DefineComponent | T;
 
 export interface Serializers {
-  types: Record<string, DynamicSerializer<BlockSerializer>>;
+  types: {
+    block: BlockSerializer<BlockText>;
+    [key: string]:
+      | BlockSerializer<BlockText>
+      | DynamicSerializer<BlockSerializer>;
+  };
   marks: Record<string, DynamicSerializer<MarkSerializer>>;
   styles: Record<string, string>;
-  list: DynamicSerializer<BlockSerializer>;
-  listItem: DynamicSerializer<BlockSerializer>;
+  list: DynamicSerializer<BlockSerializer<BlockListItem>>;
+  listItem: DynamicSerializer<BlockSerializer<BlockListItem>>;
   container: DynamicSerializer<BlockSerializer>;
   span: SpanSerializer;
   hardBreak: () => VNode;
