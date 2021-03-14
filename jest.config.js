@@ -9,4 +9,9 @@ module.exports = {
     '^.+\\.vue$': 'vue-jest',
   },
   watchPathIgnorePatterns: ['<rootDir>/node_modules/'],
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.jest.json',
+    },
+  },
 };

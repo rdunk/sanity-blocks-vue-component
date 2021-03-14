@@ -4,6 +4,7 @@ import { DefineComponent, defineComponent, h, PropType, toRaw } from 'vue';
 import {
   Block,
   BlockList,
+  BlockListItem,
   BlockSerializer,
   BlockSpan,
   BlockText,
@@ -16,8 +17,10 @@ import {
   SpanSerializer,
 } from './types';
 
+const notNull = <T>(x: T | null): x is T => x !== null;
+
 const createElementFromStyle = (
-  block: BlockText,
+  block: BlockText | BlockListItem,
   serializers: Serializers,
   children: (SerializedNode | SerializedNode[])[]
 ) => {
@@ -96,7 +99,10 @@ const attachMarks = (
   }
 
   if (typeof serializer === 'function') {
-    return serializer(markDef, attachMarks(span, marks, serializers, markDefs));
+    return serializer(
+      markDef || {},
+      attachMarks(span, marks, serializers, markDefs)
+    );
   }
 
   return h(
@@ -118,8 +124,7 @@ const spanSerializer: SpanSerializer = (span, serializers, markDefs) => {
 };
 
 const blockTextSerializer = (block: BlockText, serializers: Serializers) => {
-  // @TODO Using type assertion, maybe not ideal
-  const nodes = block.children.flatMap((span: BlockSpan) => {
+  const nodes = block.children.flatMap((span) => {
     return spanSerializer(span, serializers, block.markDefs);
   });
   return createElementFromStyle(block, serializers, nodes);
@@ -136,12 +141,12 @@ const linkSerializer: MarkSerializer = (props, children) => {
   );
 };
 
-const listSerializer = (block: BlockText, serializers: Serializers) => {
+const listSerializer = (block: BlockListItem, serializers: Serializers) => {
   const el = block.listItem === 'number' ? 'ol' : 'ul';
   return h(el, {}, renderBlocks(block.children, serializers, block.level));
 };
 
-const listItemSerializer = (block: BlockText, serializers: Serializers) => {
+const listItemSerializer = (block: BlockListItem, serializers: Serializers) => {
   // Array of array of strings or nodes
   const children = renderBlocks(block.children, serializers, block.level);
   const shouldWrap = block.style && block.style !== 'normal';
@@ -185,7 +190,7 @@ const serializeBlock = (block: Block | BlockSpan, serializers: Serializers) => {
   return h(serializer, {});
 };
 
-const createList = (block: BlockText): BlockList => {
+const createList = (block: BlockListItem): BlockList => {
   return {
     _type: 'list',
     _key: `${block._key}-parent`,
@@ -196,15 +201,14 @@ const createList = (block: BlockText): BlockList => {
 };
 
 const nestBlocks = (blocks: Array<Block | BlockSpan>, level = 0) => {
-  const isListOrListItem = (block: Block | BlockSpan): block is BlockText =>
+  const isListOrListItem = (block: Block | BlockSpan): block is BlockListItem =>
     'level' in block;
   const hasChildren = (
     block: Block | BlockSpan
   ): block is BlockText | BlockList => block && 'children' in block;
   const newBlocks: Array<Block | BlockSpan> = [];
-  let currentList: BlockList | null = null;
 
-  blocks.forEach((block, i) => {
+  blocks.forEach((block) => {
     if (!isListOrListItem(block)) {
       newBlocks.push(block);
       return;
@@ -212,47 +216,25 @@ const nestBlocks = (blocks: Array<Block | BlockSpan>, level = 0) => {
 
     const lastBlock = newBlocks[newBlocks.length - 1];
 
-    // If this is the first level, nest a bit differently
-    if (level === 0) {
-      if (
-        !lastBlock ||
-        !isListOrListItem(lastBlock) ||
-        lastBlock.level > block.level
-      ) {
-        newBlocks.push(createList(block));
-        return;
-      }
-      lastBlock.children.push(block);
+    if (block.level === level) {
+      newBlocks.push(block);
       return;
     }
 
-    // Level > 0
-    if (block.level === level) {
-      newBlocks.push(block);
-      if (currentList && hasChildren(lastBlock)) {
-        // @TODO Why is this only ever a block?
-        lastBlock.children.push(currentList);
-        currentList = null;
-        return;
-      }
-    }
-
-    if (block.level > level) {
-      if (hasChildren(lastBlock)) {
-        if (currentList) {
-          currentList.children.push(block);
-        } else {
-          currentList = createList(block);
-        }
-      }
-      if (i === blocks.length - 1) {
-        if (currentList && lastBlock && 'children' in lastBlock) {
-          lastBlock.children.push(currentList);
-          currentList = null;
-          return;
-        }
-        newBlocks.push(block);
-        return;
+    if (block.level && block.level > level) {
+      if (
+        !hasChildren(lastBlock) ||
+        !isListOrListItem(lastBlock) ||
+        (lastBlock.level && lastBlock.level > block.level)
+      ) {
+        newBlocks.push(createList(block));
+      } else if (
+        lastBlock.level === block.level &&
+        lastBlock.listItem !== block.listItem
+      ) {
+        newBlocks.push(createList(block));
+      } else {
+        lastBlock.children.push(block);
       }
     }
   });
@@ -270,7 +252,9 @@ const renderBlocks = (
   const nestedBlocks = nestBlocks(blocks, level);
 
   // Loop through each block, and serialize it
-  return nestedBlocks.map((block) => serializeBlock(block, serializers));
+  return nestedBlocks
+    .map((block) => serializeBlock(block, serializers))
+    .filter(notNull);
 };
 
 const defaultSerializers: Serializers = {

@@ -14,10 +14,10 @@ test('custom type serializer with template', () => {
       ],
       serializers: {
         types: {
-          message: {
+          message: defineComponent({
             template: '<p>{{ msg }}</p>',
             props: ['msg'],
-          },
+          }),
         },
       },
     },

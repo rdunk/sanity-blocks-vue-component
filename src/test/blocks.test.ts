@@ -1,12 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { SanityBlocks } from '..';
 
-// The component to test
-// const MessageComponent = {
-//   template: '<p>{{ msg }}</p>',
-//   props: ['msg']
-// };
-
 const content = [
   {
     _key: '64501e9fa998',
