@@ -1,5 +1,4 @@
 import { mount } from '@vue/test-utils';
-import { install } from 'vue-demi';
 import { SanityBlocks } from '../src';
 
 const content = [
@@ -398,10 +397,6 @@ const content = [
     style: 'normal',
   },
 ];
-
-beforeEach(() => {
-  install();
-});
 
 test('matches html', () => {
   const wrapper = mount(SanityBlocks, {
