@@ -1,7 +1,5 @@
 import merge from 'lodash.merge';
-//@ts-ignore TS doesn't like vue-demi
-import { defineComponent, h } from 'vue-demi';
-import { DefineComponent, PropType } from 'vue';
+import { defineComponent, h, DefineComponent, PropType } from 'vue';
 
 import {
   Block,
@@ -286,7 +284,6 @@ const defaultSerializers: Serializers = {
   span: spanSerializer,
   list: listSerializer,
   listItem: listItemSerializer,
-  container: 'div',
 };
 
 export const SanityBlocks = defineComponent({
@@ -301,9 +298,8 @@ export const SanityBlocks = defineComponent({
       default: () => ({}),
     },
   },
-  render() {
-    const serializers = merge({}, defaultSerializers, this.serializers);
-
-    return renderBlocks(this.blocks, serializers);
+  setup(props) {
+    const serializers = merge({}, defaultSerializers, props.serializers);
+    return () => renderBlocks(props.blocks, serializers);
   },
 });

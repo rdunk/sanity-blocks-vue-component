@@ -83,7 +83,6 @@ export interface Serializers {
   styles: Record<string, string>;
   list: DynamicSerializer<BlockSerializer<BlockListItem>>;
   listItem: DynamicSerializer<BlockSerializer<BlockListItem>>;
-  container: DynamicSerializer<BlockSerializer>;
   span: SpanSerializer;
   hardBreak: () => VNode;
 }
