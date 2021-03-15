@@ -53,8 +53,13 @@ export default {
 Or install globally:
 
 ```ts
+import { createApp } from 'vue';
 import { SanityBlocks } from 'sanity-blocks-vue-component';
-Vue.component(SanityBlocks);
+import App from './App.vue';
+
+const app = createApp(App);
+app.component('sanity-blocks', SanityBlocks);
+app.mount('#app');
 ```
 
 ## Props
