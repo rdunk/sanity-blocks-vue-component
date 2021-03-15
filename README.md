@@ -4,7 +4,7 @@
     <img alt="NPM version" src="https://img.shields.io/npm/v/sanity-blocks-vue-component?color=000&style=flat-square">
     <img alt="NPM downloads" src="https://img.shields.io/npm/dm/sanity-blocks-vue-component?color=000&style=flat-square">
     <img alt="GitHub Release Date" src="https://img.shields.io/github/release-date/rdunk/sanity-blocks-vue-component?color=000&style=flat-square">
-    <img alt="Vue version" src="https://img.shields.io/npm/dependency-version/sanity-blocks-vue-component/vue?color=000&style=flat-square">
+    <img alt="Vue version" src="https://img.shields.io/github/package-json/dependency-version/rdunk/sanity-blocks-vue-component/vue?color=000&style=flat-square">
     <img alt="License" src="https://img.shields.io/npm/l/sanity-blocks-vue-component.svg?color=000&style=flat-square">
     </p>
 	</p>
