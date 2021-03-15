@@ -38,8 +38,8 @@ import CustomComponent from 'CustomComponent.vue';
 export default {
   components: { SanityBlocks },
   setup() {
-    const blocks: [...]; // Sanity block text
-    const serializers: {
+    const blocks = [...]; // Sanity block text
+    const serializers = {
       types: {
         custom: CustomComponent,
       },
