@@ -1,6 +1,6 @@
 {
   "name": "sanity-blocks-vue-component",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0",
   "description": "Vue 3 component for transforming Sanity block content",
   "author": "Rupert Dunk <rupert@rupertdunk.com> (http://rupertdunk.com)",
   "license": "MIT",
