@@ -1,19 +1,4 @@
-# Logs
-*.log
-
-# Compiled files
-lib
-
-# Coverage directories used by tools like istanbul
-coverage
-.nyc_output
-
-# Dependency directories
-node_modules
-
-# Other snargh
 .DS_Store
-
-# UMD bundle
-umd/*
-!umd/.gitkeep
+dist
+coverage
+node_modules

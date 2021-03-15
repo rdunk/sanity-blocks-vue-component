@@ -1,42 +1,9 @@
 {
   "name": "sanity-blocks-vue-component",
-  "version": "0.1.0",
-  "description": "Vue component for transforming Sanity block content",
-  "main": "lib/BlockContent.js",
-  "umd": "umd/blocksVueComponent.min.js",
-  "unpkg": "umd/blocksVueComponent.min.js",
-  "scripts": {
-    "browserify": "NODE_ENV=production BROWSERIFY_ENV=build DEBUG='' browserify -t envify -g uglifyify lib/BlockContent.js -o umd/blocksVueComponent.js --standalone=blocksVueComponent",
-    "build": "npm run clean && npm run compile && npm run browserify && npm run minify",
-    "clean": "rimraf lib coverage umd/*.js",
-    "compile": "babel --source-maps --copy-files -d lib/ src/",
-    "coverage": "npm test -- --coverage",
-    "minify": "uglifyjs -c -m -- umd/blocksVueComponent.js > umd/blocksVueComponent.min.js",
-    "postpublish": "npm run clean",
-    "prepublishOnly": "npm run build",
-    "test": "jest"
-  },
+  "version": "1.0.0-beta.5",
+  "description": "Vue 3 component for transforming Sanity block content",
   "author": "Rupert Dunk <rupert@rupertdunk.com> (http://rupertdunk.com)",
   "license": "MIT",
-  "dependencies": {
-    "@sanity/block-content-to-hyperscript": "^2.0.6",
-    "object-assign": "^4.1.1"
-  },
-  "devDependencies": {
-    "@sanity/block-content-tests": "^0.3.0",
-    "@vue/test-utils": "^1.0.0-beta.25",
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "browserify": "^16.2.3",
-    "envify": "^4.1.0",
-    "jest": "^23.6.0",
-    "rimraf": "^2.6.2",
-    "uglify-js": "^3.4.9",
-    "uglifyify": "^5.0.1",
-    "vue": "^2.5.17",
-    "vue-server-renderer": "^2.5.17",
-    "vue-template-compiler": "^2.5.17"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rdunk/sanity-blocks-vue-component.git"
@@ -45,9 +12,36 @@
     "url": "https://github.com/rdunk/sanity-blocks-vue-component/issues"
   },
   "homepage": "https://github.com/rdunk/sanity-blocks-vue-component#readme",
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.js"
-    ]
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.js",
+  "scripts": {
+    "build": "npm run clean && npm run build:pkg",
+    "build:pkg": "rollup -c rollup.config.js",
+    "clean": "rimraf dist coverage",
+    "postpublish": "npm run clean",
+    "prepublishOnly": "npm run build",
+    "test": "jest"
+  },
+  "dependencies": {
+    "lodash.merge": "^4.6.2",
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@types/jest": "^26.0.20",
+    "@types/lodash.merge": "^4.6.6",
+    "@vue/compiler-sfc": "^3.0.7",
+    "@vue/test-utils": "^2.0.0-rc.3",
+    "jest": "^26.6.3",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.41.1",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "ts-jest": "^26.5.3",
+    "tslib": "^2.1.0",
+    "typescript": "^4.2.3",
+    "vue-jest": "^5.0.0-alpha.7"
   }
 }

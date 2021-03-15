@@ -1,6 +1,4 @@
 {
-  "semi": false,
-  "printWidth": 100,
-  "bracketSpacing": false,
+  "semi": true,
   "singleQuote": true
 }

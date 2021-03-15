@@ -1,9 +1,9 @@
-.nyc_output
-node_modules
-src
 .babelrc
-.editorconfig
-.eslintignore
-.eslintrc
 .gitignore
+.prettierrc
+jest.config.js
+node_modules
 rollup.config.js
+src
+test
+tsconfig.json

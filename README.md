@@ -1,186 +1,98 @@
-# sanity-blocks-vue-component
+<div align="center">
+	<h1>Sanity Blocks Vue Component</h1>
+  <p>
+    <img alt="NPM version" src="https://img.shields.io/npm/v/sanity-blocks-vue-component?color=000&style=flat-square">
+    <img alt="NPM downloads" src="https://img.shields.io/npm/dm/sanity-blocks-vue-component?color=000&style=flat-square">
+    <img alt="GitHub Release Date" src="https://img.shields.io/github/release-date/rdunk/sanity-blocks-vue-component?color=000&style=flat-square">
+    <img alt="Vue version" src="https://img.shields.io/npm/dependency-version/sanity-blocks-vue-component/vue?color=000&style=flat-square">
+    <img alt="License" src="https://img.shields.io/npm/l/sanity-blocks-vue-component.svg?color=000&style=flat-square">
+    </p>
+	</p>
+	<p>
+		<h3>A Vue component for rendering <a href="https://www.sanity.io/docs/block-content" _target="blank">block content</a> from Sanity.</h3>
+	<br>
+	<br>
+</div>
 
-A Vue component for rendering [block text](https://www.sanity.io/docs/schema-types/block-type) from [Sanity](https://www.sanity.io/). Allows you to pass other Vue components as custom serializers.
+## Install
 
-## Contents
+> **Notice**: This version is a complete rewrite for Vue 3. For Vue 2, see versions <1.0.0.
 
-- [Installing](#installing)
-- [Basic Usage](#basic-usage)
-- [Props](#props)
-- [Serializer Property](#serializer-property)
-- [Component Serializers](#component-serializers)
-- [Full Example](#full-example)
-- [Credits](#credits)
-- [License](#license)
-
-## Installing
-
-### via npm
-
-```
-npm install --save sanity-blocks-vue-component
-```
-
-### Add Component Globally
-
-```js
-import BlockContent from 'sanity-blocks-vue-component'
-Vue.component('block-content', BlockContent);
+```bash
+$ npm i sanity-blocks-vue-component # or yarn add sanity-blocks-vue-component
 ```
 
-## Basic Usage
+## Usage
 
-Basic usage in a single file component, see the [full example](#full-example) below for more detail.
+Import directly into your component or view:
 
-```html
+```vue
 <template>
-  <block-content
-  :blocks="blocks" 
-  :serializers="serializers"
-  />
+  <SanityBlocks :blocks="blocks" :serializers="serializers" />
 </template>
 
 <script>
-import MyComponent from 'MyComponent.vue'
+import { SanityBlocks } from 'sanity-blocks-vue-component';
+import CustomComponent from 'CustomComponent.vue';
 
 export default {
-  data() {
-    return {
-      blocks : [...], // Sanity block text
-      serializers: {
-        types: {
-          foo: MyComponent
-        }
-      }
+  components: { SanityBlocks },
+  setup() {
+    const blocks = [...]; // Sanity block text
+    const serializers = {
+      types: {
+        custom: CustomComponent,
+      },
     };
+    return { blocks, serializers };
   }
-};
+}
 </script>
+```
+
+Or install globally:
+
+```ts
+import { createApp } from 'vue';
+import { SanityBlocks } from 'sanity-blocks-vue-component';
+import App from './App.vue';
+
+const app = createApp(App);
+app.component('sanity-blocks', SanityBlocks);
+app.mount('#app');
 ```
 
 ## Props
 
 The following props can be passed to the component.
 
-|Prop|Required|Description|Type|
-|:---|---|---|---|
-|`blocks`|Yes|Block text retreived from Sanity.|Array, Object|
-|`serializers`|No|Any required custom serializers, see below for more detail.|Object|
-|`className`|No|The class applied to any container element if present. Ignored if a custom container serializer is passed.|String|
-|`projectId`|No|ID of the Sanity project.|String|
-|`dataset`|No|Name of the Sanity dataset containing the document that is being rendered.|String|
-|`imageOptions`|No|Query parameters to apply in image blocks to control size/crop mode etc.|Object|
-|`renderContainerOnSingleChild`|No|Set true to enforce a container element for single block input data.|Boolean|
+| Prop          | Required | Description                                        | Type   |
+| ------------- | -------- | -------------------------------------------------- | ------ |
+| `blocks`      | Yes      | Block content retrieved from Sanity.               | Array  |
+| `serializers` | No       | Any custom serializers you want to use. See below. | Object |
 
-## Serializer Property
+## Serializers
 
-Serializers are the functions used for rendering block content. They can be defined either as a string (e.g. `div`) or as a Vue Component (see below for more detail). This package comes with default serializers that will work for rendering basic block content, but you may pass a `serializer` prop to override or extend the default serializers. The object passed will be merged with the default serializers object.
+Serializers are the functions used for rendering block content. They can be defined as a string or a Vue Component. This package comes with default serializers for rendering basic block content, you can pass a `serializer` prop to override or extend the defaults.
 
-|Property|Description|
-|:---|---|
-|`types`|Object of serializers for block types.|
-|`marks`|Object of serializers for marks.|
-|`list`|Serializer for list containers.|
-|`listItem`|Serializer for list items.|
-|`hardBreak`|Serializer for hard breaks.|
-|`container`|Serializer for the element used to wrap the blocks.|
+| Property    | Description                            |
+| ----------- | -------------------------------------- |
+| `types`     | Object of serializers for block types. |
+| `marks`     | Object of serializers for marks.       |
+| `styles`    | Object of serializers for styles.      |
+| `list`      | Serializer for list containers.        |
+| `listItem`  | Serializer for list items.             |
+| `hardBreak` | Serializer for hard breaks.            |
 
 ## Component Serializers
 
-### For Blocks
-When using custom Vue components as block serializers, all properties of the block object will be passed via [`v-bind`](https://vuejs.org/v2/api/#v-bind). **To access the data, define the corresponding [props](https://vuejs.org/v2/guide/components-props.html) in your component**. Components will also be passed a `_sanityProps` prop which is an object with two properties:
+The most common use case is defining serializers for custom block types and marks, using the `types` and `marks` serializer properties. For example, if you have a block of type `custom`, you can add a property to the `serializers.types` object with the key `custom` and a value of the Vue component that should serialize blocks of that type.
 
-- `node` - the block data object.
-- `options` - Sanity specific options (`projectId`, `dataset`, `imageOptions`) passed to the root component.
+When using a custom Vue component as a serializer, all properties of the block or mark object (excluding `_key` and `_type`) will be passed as [props](https://v3.vuejs.org/guide/component-props.html).
 
-This additional prop can be useful for generating image URLs using the [@sanity/image-url](https://github.com/sanity-io/sanity/tree/next/packages/%40sanity/image-url) package.
+> **To access the data, you should define the correpsonding props in your component.**
 
-### For Marks
-When using custom Vue components as mark serializers, all properties of the block object will be passed via [`v-bind`](https://vuejs.org/v2/api/#v-bind). **To access the data, define the corresponding [props](https://vuejs.org/v2/guide/components-props.html) in your component**. You can use [slots](https://vuejs.org/v2/guide/components-slots.html) (e.g. `this.$slots.default`) to access the mark text or content.
-
-#### Functional Components
-If your mark serializer is purely presentational (no reactive data, no lifecycle methods), you may want to use a [functional component](https://vuejs.org/v2/guide/render-function.html#Functional-Components) instead for better performance. When using functional components, you can access the properties on the `props` object.
-
-For example, simple external links are a good candidate for a functional component:
-```html
-<template functional>
-  <a :href="props.href"
-     target="_blank"
-     rel="noopener">
-     <slot />
-  </a>
-</template>
-```
-
-## Full Example
-
-#### MainComponent.vue
-
-```html
-<template>
-  <block-content
-  :blocks="blocks" 
-  :serializers="serializers"
-  />
-</template>
-
-<script>
-// Import the component if not already added globally
-import BlockContent from 'sanity-blocks-vue-component'
-// Import any components to be used as serializers
-import GreetingComponent from 'GreetingComponent.vue'
-
-export default {
-  components: {
-    BlockContent
-  },
-  data() {
-    return {
-      // The block data will usually be retrieved from Sanity
-      blocks: [
-        {
-          _type: 'greeting', // Sanity specific prop, corresponds to the serializer name
-          _key: 'example', // Sanity specific prop
-          firstname: 'Foobert', // Example custom property for this block type
-          lastname: 'Barson', // Example custom property for this block type
-        }
-      ],
-      serializers: {
-        types: {
-          greeting: GreetingComponent
-        }
-      }
-    };
-  }
-};
-</script>
-```
-
-##### GreetingComponent.vue
-```html
-<template>
-  <div>Hello, {{ firstname }} {{ lastname }}.</div>
-</template>
-
-<script>
-export default {
-  // Define the block object properties this component receives as props
-  props: {
-    firstname: {
-      type: String,
-    },
-    lastname: {
-      type: String,
-    }
-  },
-}
-</script>
-```
-
-## Credits
-
-Relies heavily on the official Sanity [block-content-to-hyperscript](https://github.com/sanity-io/block-content-to-hyperscript) package.
-
+For mark serializers, you can also use [slots](https://v3.vuejs.org/guide/component-slots.html) to access the mark text or content.
 
 ## License
 
