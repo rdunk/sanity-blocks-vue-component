@@ -66,9 +66,9 @@ The following props can be passed to the component.
 | `blocks`      | Yes      | Block content retrieved from Sanity.               | Array  |
 | `serializers` | No       | Any custom serializers you want to use. See below. | Object |
 
-## Serializer Prop
+## Serializers
 
-Serializers are the functions used for rendering block content. They can be defined as a string (e.g. `div`) or a Vue Component. This package comes with default serializers for rendering basic block content, you can pass a `serializer` prop to override or extend the defaults. Any object passed will be merged with the default serializers object.
+Serializers are the functions used for rendering block content. They can be defined as a string or a Vue Component. This package comes with default serializers for rendering basic block content, you can pass a `serializer` prop to override or extend the defaults.
 
 | Property    | Description                            |
 | ----------- | -------------------------------------- |
@@ -79,9 +79,9 @@ Serializers are the functions used for rendering block content. They can be defi
 | `listItem`  | Serializer for list items.             |
 | `hardBreak` | Serializer for hard breaks.            |
 
-## Using Component Serializers
+## Component Serializers
 
-The most common use case is defining serializers for custom block types and marks, using the `types` and `marks` serializer properties. For example, if you have a block of `_type` `custom`, you can add a property to the `serializers.types` object with the key `custom` and a value of the Vue component that should serialize blocks of that type.
+The most common use case is defining serializers for custom block types and marks, using the `types` and `marks` serializer properties. For example, if you have a block of type `custom`, you can add a property to the `serializers.types` object with the key `custom` and a value of the Vue component that should serialize blocks of that type.
 
 When using a custom Vue component as a serializer, all properties of the block or mark object (excluding `_key` and `_type`) will be passed as [props](https://v3.vuejs.org/guide/component-props.html).
 
