@@ -172,6 +172,25 @@ test('handles sequences of ordered and unordered lists', () => {
   });
 
   expect(wrapper.html()).toMatch(
-    '<ul><li>One</li><li>Two</li></ul><ol><li>Three</li><li>Four</li></ol><ul><li>Five</li><li>Six<ol><li>Seven</li><li>Eight</li></ol><ul><li>Nine</li><li>Ten</li></ul></li></ul>'
+    `<ul>
+  <li>One</li>
+  <li>Two</li>
+</ul>
+<ol>
+  <li>Three</li>
+  <li>Four</li>
+</ol>
+<ul>
+  <li>Five</li>
+  <li>Six<ol>
+      <li>Seven</li>
+      <li>Eight</li>
+    </ol>
+    <ul>
+      <li>Nine</li>
+      <li>Ten</li>
+    </ul>
+  </li>
+</ul>`
   );
 });

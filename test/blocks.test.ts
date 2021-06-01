@@ -406,6 +406,47 @@ test('matches html', () => {
   });
 
   expect(wrapper.html()).toMatch(
-    '<p>Test <strong>content</strong> <span style="text-decoration: underline;"><em><strong>with</strong></em></span> <strong>styling</strong></p><h1>List</h1><ol><li>One <strong><em>some</em></strong> stuff<ol><li>Two<br>Line break...<br></li><li>Three <span style="text-decoration: underline;">with</span> <strong>extra</strong> bits<ol><li>Four</li><li>Five<ol><li>Six</li></ol></li><li>Seven</li></ol></li></ol></li></ol><p>Erm?</p><ol><li>Eight</li><li>Nine</li></ol><ol><li><em>Ten</em></li><li><span style="text-decoration: underline;">OK</span></li><li><h1>wtf</h1></li><li><strong>Eleven</strong><ol><li>Twelve</li></ol></li></ol><p>Hello!</p><ul><li>Second list...</li><li>More..<ol><li>Hmm...</li></ol></li></ul>'
+    `<p>Test <strong>content</strong> <span style="text-decoration: underline;"><em><strong>with</strong></em></span> <strong>styling</strong></p>
+<h1>List</h1>
+<ol>
+  <li>One <strong><em>some</em></strong> stuff<ol>
+      <li>Two<br>Line break...<br></li>
+      <li>Three <span style="text-decoration: underline;">with</span> <strong>extra</strong> bits<ol>
+          <li>Four</li>
+          <li>Five<ol>
+              <li>Six</li>
+            </ol>
+          </li>
+          <li>Seven</li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ol>
+<p>Erm?</p>
+<ol>
+  <li>Eight</li>
+  <li>Nine</li>
+</ol>
+<ol>
+  <li><em>Ten</em></li>
+  <li><span style="text-decoration: underline;">OK</span></li>
+  <li>
+    <h1>wtf</h1>
+  </li>
+  <li><strong>Eleven</strong>
+    <ol>
+      <li>Twelve</li>
+    </ol>
+  </li>
+</ol>
+<p>Hello!</p>
+<ul>
+  <li>Second list...</li>
+  <li>More..<ol>
+      <li>Hmm...</li>
+    </ol>
+  </li>
+</ul>`
   );
 });
