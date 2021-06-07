@@ -16,7 +16,7 @@
 
 ## Install
 
-> **Notice**: This version is a complete rewrite for Vue 3. For Vue 2, see versions <1.0.0.
+> **Notice**: This version is a complete rewrite for **Vue 3**. For **Vue 2** and **Nuxt 2**, follow the instructions in the [legacy branch](https://github.com/rdunk/sanity-blocks-vue-component/tree/legacy#sanity-blocks-vue-component).
 
 ```bash
 $ npm i sanity-blocks-vue-component # or yarn add sanity-blocks-vue-component
