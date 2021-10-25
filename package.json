@@ -3,6 +3,12 @@
   "version": "1.0.1",
   "description": "Vue 3 component for transforming Sanity block content",
   "author": "Rupert Dunk <rupert@rupertdunk.com> (http://rupertdunk.com)",
+  "contributors": [
+    {
+      "name": "Paul Welsh",
+      "url": "http://nonbreakingspace.co.uk"
+    }
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
