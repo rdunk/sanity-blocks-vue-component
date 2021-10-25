@@ -2,6 +2,48 @@ import { h, defineComponent } from 'vue';
 import { mount } from '@vue/test-utils';
 import { SanityBlocks } from '../src';
 
+test('undefined custom type serializer with fallback', () => {
+  const wrapper = mount(SanityBlocks, {
+    props: {
+      blocks: [
+        {
+          _type: 'message',
+          _key: '3l37kf8jq1b4',
+          msg: 'Foobar!',
+        },
+      ],
+      serializers: {
+        types: {},
+      },
+      useFallbackSerializer: true,
+    },
+  });
+
+  expect(wrapper.html()).toMatch(
+    '<p style="color: red; background: white; border: 4px solid red; margin: 0px 0px 4px 0px; padding: 24px;">Serializer for message does not exist.</p>'
+  );
+});
+
+test('undefined custom type serializer without fallback', () => {
+  const wrapper = mount(SanityBlocks, {
+    props: {
+      blocks: [
+        {
+          _type: 'message',
+          _key: '3l37kf8jq1b4',
+          msg: 'Foobar!',
+        },
+      ],
+      serializers: {
+        types: {},
+      },
+      useFallbackSerializer: false,
+    },
+  });
+
+  expect(wrapper.html()).toMatch('');
+});
+
 test('custom type serializer with template', () => {
   const wrapper = mount(SanityBlocks, {
     props: {

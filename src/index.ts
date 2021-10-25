@@ -19,6 +19,31 @@ import {
 
 const notNull = <T>(x: T | null): x is T => x !== null;
 
+const FallbackSerializer = defineComponent({
+  props: {
+    _type: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props) {
+    return () =>
+      h(
+        'p',
+        {
+          style: {
+            color: 'red',
+            background: 'white',
+            border: '4px solid red',
+            margin: '0 0 4px 0',
+            padding: '24px',
+          },
+        },
+        `Serializer for ${props._type} does not exist.`
+      );
+  },
+});
+
 const createElementFromStyle = (
   block: BlockText | BlockListItem,
   serializers: Serializers,
@@ -141,14 +166,36 @@ const linkSerializer: MarkSerializer = (props, children) => {
   );
 };
 
-const listSerializer = (block: BlockListItem, serializers: Serializers) => {
+const listSerializer = (
+  block: BlockListItem,
+  serializers: Serializers,
+  useFallbackSerializer: boolean
+) => {
   const el = block.listItem === 'number' ? 'ol' : 'ul';
-  return h(el, {}, renderBlocks(block.children, serializers, block.level));
+  return h(
+    el,
+    {},
+    renderBlocks(
+      block.children,
+      serializers,
+      block.level,
+      useFallbackSerializer
+    )
+  );
 };
 
-const listItemSerializer = (block: BlockListItem, serializers: Serializers) => {
+const listItemSerializer = (
+  block: BlockListItem,
+  serializers: Serializers,
+  useFallbackSerializer: boolean
+) => {
   // Array of array of strings or nodes
-  const children = renderBlocks(block.children, serializers, block.level);
+  const children = renderBlocks(
+    block.children,
+    serializers,
+    block.level,
+    useFallbackSerializer
+  );
   const shouldWrap = block.style && block.style !== 'normal';
   return h(
     'li',
@@ -166,11 +213,22 @@ const extractProps = (item: CustomBlock | MarkDefinition | undefined) => {
   return {};
 };
 
-const serializeBlock = (block: Block | BlockSpan, serializers: Serializers) => {
+const serializeBlock = (
+  block: Block | BlockSpan,
+  serializers: Serializers,
+  useFallbackSerializer: boolean
+) => {
   // Find the serializer for this type of block
   const serializer = findBlockSerializer(block, serializers);
-  // If none found, return null
-  if (!serializer) return null;
+  // If none found, use fallback or null
+  if (!serializer) {
+    if (useFallbackSerializer) {
+      return h(FallbackSerializer, {
+        _type: block._type,
+      });
+    }
+    return null;
+  }
   // If the serializer is a vue component, render it
   if (serializerIsVueComponent(serializer)) {
     const props = extractProps(block);
@@ -184,7 +242,11 @@ const serializeBlock = (block: Block | BlockSpan, serializers: Serializers) => {
     if (blockIsSpan(block)) {
       return (serializer as SpanSerializer)(block, serializers, []);
     }
-    return (serializer as BlockSerializer)(block, serializers);
+    return (serializer as BlockSerializer)(
+      block,
+      serializers,
+      useFallbackSerializer
+    );
   }
   // Must be a string by this point
   return h(serializer, {});
@@ -246,14 +308,15 @@ const nestBlocks = (blocks: Array<Block | BlockSpan>, level = 0) => {
 const renderBlocks = (
   blocks: Block[] | BlockSpan[],
   serializers: Serializers,
-  level = 0
+  level = 0,
+  useFallbackSerializer: boolean
 ) => {
   // Nest list items in lists
   const nestedBlocks = nestBlocks(blocks, level);
 
   // Loop through each block, and serialize it
   return nestedBlocks
-    .map((block) => serializeBlock(block, serializers))
+    .map((block) => serializeBlock(block, serializers, useFallbackSerializer))
     .filter(notNull);
 };
 
@@ -297,9 +360,14 @@ export const SanityBlocks = defineComponent({
       type: Object as PropType<Partial<Serializers>>,
       default: () => ({}),
     },
+    useFallbackSerializer: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
   },
   setup(props) {
     const serializers = merge({}, defaultSerializers, props.serializers);
-    return () => renderBlocks(props.blocks, serializers);
+    return () =>
+      renderBlocks(props.blocks, serializers, 0, props.useFallbackSerializer);
   },
 });

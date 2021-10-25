@@ -28,7 +28,7 @@ Import directly into your component or view:
 
 ```vue
 <template>
-  <SanityBlocks :blocks="blocks" :serializers="serializers" />
+  <SanityBlocks :blocks="blocks" :serializers="serializers" :use-fallback-serializer="true" />
 </template>
 
 <script>
@@ -66,10 +66,11 @@ app.mount('#app');
 
 The following props can be passed to the component.
 
-| Prop          | Required | Description                                        | Type   |
-| ------------- | -------- | -------------------------------------------------- | ------ |
-| `blocks`      | Yes      | Block content retrieved from Sanity.               | Array  |
-| `serializers` | No       | Any custom serializers you want to use. See below. | Object |
+| Prop                    | Required | Description                                           | Type    |
+| ----------------------- | -------- | ----------------------------------------------------- | ------- |
+| `blocks`                | Yes      | Block content retrieved from Sanity.                  | Array   |
+| `serializers`           | No       | Any custom serializers you want to use. See below.    | Object  |
+| `useFallbackSerializer` | No       | Show fallback component if custom type doe not exist. | Boolean |
 
 ## Serializers
 

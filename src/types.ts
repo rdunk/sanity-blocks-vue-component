@@ -47,7 +47,8 @@ export type SerializedNode = string | VNode;
 
 export type BlockSerializer<T = Block> = (
   block: T,
-  serializers: Serializers
+  serializers: Serializers,
+  useFallbackSerializer: boolean
 ) => SerializedNode | SerializedNode[];
 
 export type MarkSerializer = (
