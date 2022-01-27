@@ -90,7 +90,7 @@ The most common use case is defining serializers for custom block types and mark
 
 When using a custom Vue component as a serializer, all properties of the block or mark object (excluding `_key` and `_type`) will be passed as [props](https://v3.vuejs.org/guide/component-props.html).
 
-> **To access the data, you should define the correpsonding props in your component.**
+> **To access the data, you should define the corresponding props in your component.**
 
 For mark serializers, you can also use [slots](https://v3.vuejs.org/guide/component-slots.html) to access the mark text or content.
 
