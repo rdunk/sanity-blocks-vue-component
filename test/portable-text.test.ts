@@ -10,8 +10,7 @@ import {
 } from '../src';
 import * as fixtures from './fixtures';
 
-const render = (props: PortableTextProps) =>
-  mount(PortableText, { props }).html({ raw: true });
+const render = (props: PortableTextProps) => mount(PortableText, { props }).html({ raw: true });
 
 test('builds empty tree on empty block', () => {
   const { input, output } = fixtures.emptyBlock;
@@ -101,11 +100,7 @@ test('sorts marks correctly on equal number of occurences', () => {
   const { input, output } = fixtures.marksAllTheWayDown;
   const marks: PortableTextVueComponents['marks'] = {
     highlight: ({ value }, { slots }) =>
-      h(
-        'span',
-        { style: { border: `${value?.thickness}px solid` } },
-        slots.default?.()
-      ),
+      h('span', { style: { border: `${value?.thickness}px solid` } }, slots.default?.()),
   };
   const result = render({ value: input, components: { marks } });
   expect(result).toBe(output);
@@ -180,11 +175,7 @@ test('can nest marks correctly in block/marks context', () => {
             EUR: 10.04,
           };
           const rate = rates[value.sourceCurrency] || 1;
-          return h(
-            'span',
-            { class: 'currency' },
-            `~${Math.round(value.sourceAmount * rate)} NOK`
-          );
+          return h('span', { class: 'currency' }, `~${Math.round(value.sourceAmount * rate)} NOK`);
         },
       },
     },
@@ -224,13 +215,12 @@ test('can render custom list item styles with provided list style component', ()
     value: input,
     components: {
       list: {
-        square: (_, { slots }) =>
-          h('ul', { class: 'list-squared' }, slots.default?.()),
+        square: (_, { slots }) => h('ul', { class: 'list-squared' }, slots.default?.()),
       },
     },
   });
   expect(result).toBe(
-    '<ul class="list-squared"><li>Square 1</li><li>Square 2<ul><li>Dat disc</li></ul></li><li>Square 3</li></ul>'
+    '<ul class="list-squared"><li>Square 1</li><li>Square 2<ul><li>Dat disc</li></ul></li><li>Square 3</li></ul>',
   );
 });
 
@@ -240,13 +230,12 @@ test('can render custom list item styles with provided list style component', ()
     value: input,
     components: {
       listItem: {
-        square: (_, { slots }) =>
-          h('li', { class: 'item-squared' }, slots.default?.()),
+        square: (_, { slots }) => h('li', { class: 'item-squared' }, slots.default?.()),
       },
     },
   });
   expect(result).toBe(
-    '<ul><li class="item-squared">Square 1</li><li class="item-squared">Square 2<ul><li>Dat disc</li></ul></li><li class="item-squared">Square 3</li></ul>'
+    '<ul><li class="item-squared">Square 1</li><li class="item-squared">Square 2<ul><li>Dat disc</li></ul></li><li class="item-squared">Square 3</li></ul>',
   );
 });
 
@@ -257,7 +246,7 @@ test('warns on missing list style component', () => {
     components: { list: {} },
   });
   expect(result).toBe(
-    '<ul><li>Square 1</li><li>Square 2<ul><li>Dat disc</li></ul></li><li>Square 3</li></ul>'
+    '<ul><li>Square 1</li><li>Square 2<ul><li>Dat disc</li></ul></li><li>Square 3</li></ul>',
   );
 });
 
@@ -288,11 +277,7 @@ test('can specify custom component for custom block types', () => {
         index: 0,
         isInline: false,
       });
-      return h(
-        'pre',
-        { 'data-language': props.value.language },
-        h('code', props.value.code)
-      );
+      return h('pre', { 'data-language': props.value.language }, h('code', props.value.code));
     },
   };
   const result = render({ value: input, components: { types } });
@@ -323,7 +308,7 @@ test('can specify custom component for custom block types with children', () => 
       return h(
         'p',
         { style: { background: props.value.background } },
-        props.value.children.map(({ text }) => `Customers say: ${text}`)
+        props.value.children.map(({ text }) => `Customers say: ${text}`),
       );
     },
   };
@@ -337,11 +322,7 @@ test('can specify custom components for custom marks', () => {
     _type: 'highlight';
     thickness: number;
   }> = ({ value }, { slots }) =>
-    h(
-      'span',
-      { style: { border: `${value?.thickness}px solid` } },
-      slots.default?.()
-    );
+    h('span', { style: { border: `${value?.thickness}px solid` } }, slots.default?.());
 
   const result = render({ value: input, components: { marks: { highlight } } });
   expect(result).toBe(output);
@@ -349,10 +330,8 @@ test('can specify custom components for custom marks', () => {
 
 test('can specify custom components for defaults marks', () => {
   const { input, output } = fixtures.overrideDefaultMarks;
-  const link: PortableTextMarkComponent<{ _type: 'link'; href: string }> = (
-    { value },
-    { slots }
-  ) => h('a', { class: 'mahlink', href: value?.href }, slots.default?.());
+  const link: PortableTextMarkComponent<{ _type: 'link'; href: string }> = ({ value }, { slots }) =>
+    h('a', { class: 'mahlink', href: value?.href }, slots.default?.());
 
   const result = render({ value: input, components: { marks: { link } } });
   expect(result).toBe(output);
@@ -373,6 +352,6 @@ test('can register custom `missing component` handler', () => {
   const { input } = fixtures.missingMarkComponent;
   render({ value: input, onMissingComponent });
   expect(warning).toBe(
-    '[@portabletext/vue] Unknown mark type "abc", specify a component for it in the `components.marks` prop'
+    '[@portabletext/vue] Unknown mark type "abc", specify a component for it in the `components.marks` prop',
   );
 });

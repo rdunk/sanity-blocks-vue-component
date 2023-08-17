@@ -1,4 +1,4 @@
-import type {PortableTextBlock} from '@portabletext/types'
+import type { PortableTextBlock } from '@portabletext/types';
 
 const input: PortableTextBlock[] = [
   {
@@ -61,7 +61,7 @@ const input: PortableTextBlock[] = [
       },
     ],
   },
-]
+];
 
 export default {
   input,
@@ -79,4 +79,4 @@ export default {
   ]
     .map((line) => line.trim())
     .join(''),
-}
+};

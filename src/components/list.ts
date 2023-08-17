@@ -1,16 +1,9 @@
-import { h } from 'vue';
-import type {
-  PortableTextListComponent,
-  PortableTextListItemComponent,
-} from '../types';
+import type { PortableTextListComponent, PortableTextListItemComponent } from '../types';
+import { basicElement } from './empty';
 
-export const defaultLists: Record<
-  'number' | 'bullet',
-  PortableTextListComponent
-> = {
-  number: (_, { slots }) => h('ol', slots.default?.()),
-  bullet: (_, { slots }) => h('ul', slots.default?.()),
+export const defaultLists: Record<'number' | 'bullet', PortableTextListComponent> = {
+  number: basicElement('ol'),
+  bullet: basicElement('ul'),
 };
 
-export const DefaultListItem: PortableTextListItemComponent = (_, { slots }) =>
-  h('li', slots.default?.());
+export const DefaultListItem: PortableTextListItemComponent = basicElement('li');

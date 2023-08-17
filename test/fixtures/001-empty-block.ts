@@ -1,4 +1,4 @@
-import type {PortableTextBlock} from '@portabletext/types'
+import type { PortableTextBlock } from '@portabletext/types';
 
 const input: PortableTextBlock = {
   _key: 'R5FvMrjo',
@@ -6,9 +6,9 @@ const input: PortableTextBlock = {
   children: [],
   markDefs: [],
   style: 'normal',
-}
+};
 
 export default {
   input,
   output: '<p></p>',
-}
+};

@@ -1,4 +1,4 @@
-import type {PortableTextBlock} from '@portabletext/types'
+import type { PortableTextBlock } from '@portabletext/types';
 
 const input: PortableTextBlock[] = [
   {
@@ -18,7 +18,7 @@ const input: PortableTextBlock[] = [
         sourceCurrency: 'USD',
         sourceAmount: 13.5,
       },
-      {_key: '08707ed2945b1', text: 'Neat', _type: 'span', marks: []},
+      { _key: '08707ed2945b1', text: 'Neat', _type: 'span', marks: [] },
     ],
     markDefs: [],
   },
@@ -40,7 +40,7 @@ const input: PortableTextBlock[] = [
         sourceCurrency: 'DKK',
         sourceAmount: 200,
       },
-      {_key: '08707ed2945b1', text: ' Baz!', _type: 'span', marks: ['code']},
+      { _key: '08707ed2945b1', text: ' Baz!', _type: 'span', marks: ['code'] },
     ],
     markDefs: [],
   },
@@ -62,14 +62,14 @@ const input: PortableTextBlock[] = [
         sourceCurrency: 'EUR',
         sourceAmount: 25,
       },
-      {_key: '08707ed2945b1', text: ' Baz!', _type: 'span', marks: ['code']},
+      { _key: '08707ed2945b1', text: ' Baz!', _type: 'span', marks: ['code'] },
     ],
     markDefs: [],
   },
-]
+];
 
 export default {
   input,
   output:
     '<p><code>Foo! Bar!</code><span class="currency">~119 NOK</span>Neat</p><p><code>Foo! Bar! </code><span class="currency">~270 NOK</span><code> Baz!</code></p><p>Foo! Bar! <span class="currency">~251 NOK</span><code> Baz!</code></p>',
-}
+};

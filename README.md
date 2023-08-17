@@ -71,9 +71,7 @@ const myPortableTextComponents = {
 
   marks: {
     link: ({ children, value }) => {
-      const rel = !value.href.startsWith('/')
-        ? 'noreferrer noopener'
-        : undefined;
+      const rel = !value.href.startsWith('/') ? 'noreferrer noopener' : undefined;
       return (
         <a href={value.href} rel={rel}>
           {children}
@@ -84,9 +82,7 @@ const myPortableTextComponents = {
 };
 
 const YourComponent = (props) => {
-  return (
-    <PortableText value={props.value} components={myPortableTextComponents} />
-  );
+  return <PortableText value={props.value} components={myPortableTextComponents} />;
 };
 ```
 
@@ -161,21 +157,13 @@ import { PortableTextComponents } from '@portabletext/vue';
 const components: PortableTextComponents = {
   marks: {
     // Ex. 1: custom renderer for the em / italics decorator
-    em: ({ children }) => (
-      <em className="text-gray-600 font-semibold">{children}</em>
-    ),
+    em: ({ children }) => <em className="text-gray-600 font-semibold">{children}</em>,
 
     // Ex. 2: rendering a custom `link` annotation
     link: ({ value, children }) => {
-      const target = (value?.href || '').startsWith('http')
-        ? '_blank'
-        : undefined;
+      const target = (value?.href || '').startsWith('http') ? '_blank' : undefined;
       return (
-        <a
-          href={value?.href}
-          target={target}
-          rel={target === '_blank' && 'noindex nofollow'}
-        >
+        <a href={value?.href} target={target} rel={target === '_blank' && 'noindex nofollow'}>
           {children}
         </a>
       );
@@ -222,9 +210,7 @@ const components = {
     number: ({ children }) => <ol className="mt-lg">{children}</ol>,
 
     // Ex. 2: rendering custom lists
-    checkmarks: ({ children }) => (
-      <ol className="m-auto text-lg">{children}</ol>
-    ),
+    checkmarks: ({ children }) => <ol className="m-auto text-lg">{children}</ol>,
   },
 };
 ```
@@ -239,9 +225,7 @@ Object of Vue components used to render different list item styles. The object h
 const components = {
   listItem: {
     // Ex. 1: customizing common list types
-    bullet: ({ children }) => (
-      <li style={{ listStyleType: 'disclosure-closed' }}>{children}</li>
-    ),
+    bullet: ({ children }) => <li style={{ listStyleType: 'disclosure-closed' }}>{children}</li>,
 
     // Ex. 2: rendering custom list items
     checkmarks: ({ children }) => <li>✅ {children}</li>,
@@ -324,11 +308,7 @@ const MetaDescription = (myPortableTextData) => {
 Or to generate element IDs for headers, in order for them to be linkable:
 
 ```tsx
-import {
-  PortableText,
-  toPlainText,
-  PortableTextComponents,
-} from '@portabletext/vue';
+import { PortableText, toPlainText, PortableTextComponents } from '@portabletext/vue';
 import slugify from 'slugify';
 
 const LinkableHeader = ({ children, value }) => {
@@ -369,7 +349,7 @@ interface PortableTextBlock<
   M extends PortableTextMarkDefinition = PortableTextMarkDefinition,
   C extends TypedObject = ArbitraryTypedObject | PortableTextSpan,
   S extends string = PortableTextBlockStyle,
-  L extends string = PortableTextListItemType
+  L extends string = PortableTextListItemType,
 > {}
 ```
 
@@ -419,12 +399,7 @@ type ListStyles = 'bullet' | 'myCustomList';
 // type CustomPortableTextBlock = PortableTextBlock<CustomMarks>
 // type CustomPortableTextBlock = PortableTextBlock<CustomMarks, InlineBlocks>
 // type CustomPortableTextBlock = PortableTextBlock<CustomMarks, InlineBlocks, TextStyles>
-type CustomPortableTextBlock = PortableTextBlock<
-  CustomMarks,
-  InlineBlocks,
-  TextStyles,
-  ListStyles
->;
+type CustomPortableTextBlock = PortableTextBlock<CustomMarks, InlineBlocks, TextStyles, ListStyles>;
 
 // Other BLOCKS that can appear inbetween text
 

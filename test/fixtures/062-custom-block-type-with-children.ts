@@ -17,6 +17,5 @@ const input: ArbitraryTypedObject[] = [
 
 export default {
   input,
-  output:
-    '<p style="background: blue;">Customers say: This is an inspirational quote</p>',
+  output: '<p style="background: blue;">Customers say: This is an inspirational quote</p>',
 };

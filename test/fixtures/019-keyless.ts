@@ -1,4 +1,4 @@
-import type {PortableTextBlock} from '@portabletext/types'
+import type { PortableTextBlock } from '@portabletext/types';
 
 const input: PortableTextBlock[] = [
   {
@@ -35,9 +35,9 @@ const input: PortableTextBlock[] = [
     markDefs: [],
     style: 'normal',
   },
-]
+];
 
 export default {
   input,
   output: '<p>sanity is a full time job</p><p>in a world that is always changing</p>',
-}
+};

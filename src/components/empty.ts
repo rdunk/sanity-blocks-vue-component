@@ -1,4 +1,5 @@
-import { h, Component } from 'vue';
+import { h } from 'vue';
+import type { Component } from 'vue';
 
 export const basicElement =
   (name: string): Component =>

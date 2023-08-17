@@ -13,11 +13,7 @@ import type {
   TypedObject,
 } from '@portabletext/types';
 
-export type VueNode =
-  | undefined
-  | VNode
-  | string
-  | Array<undefined | VNode | string>;
+export type VueNode = undefined | VNode | string | Array<undefined | VNode | string>;
 
 /**
  * Properties for the Portable Text Vue component
@@ -25,7 +21,7 @@ export type VueNode =
  * @template B Types that can appear in the array of blocks
  */
 export interface PortableTextProps<
-  B extends TypedObject = PortableTextBlock | ArbitraryTypedObject
+  B extends TypedObject = PortableTextBlock | ArbitraryTypedObject,
 > {
   /**
    * One or more blocks to render
@@ -60,40 +56,35 @@ export interface PortableTextProps<
  *
  * @template N Node types we expect to be rendering (`PortableTextBlock` should usually be part of this)
  */
-export type PortableTextComponent<N> =
-  | VueComponent<PortableTextComponentProps<N>>
-  | string;
+export type PortableTextComponent<N> = VueComponent<PortableTextComponentProps<N>>;
 
 /**
  * Vue component type for rendering portable text blocks (paragraphs, headings, blockquotes etc)
  */
-export type PortableTextBlockComponent =
-  PortableTextComponent<PortableTextBlock>;
+export type PortableTextBlockComponent = PortableTextComponent<PortableTextBlock>;
 
 /**
  * Vue component type for rendering (virtual, not part of the spec) portable text lists
  */
-export type PortableTextListComponent =
-  PortableTextComponent<ReactPortableTextList>;
+export type PortableTextListComponent = PortableTextComponent<ReactPortableTextList>;
 
 /**
  * Vue component type for rendering portable text list items
  */
-export type PortableTextListItemComponent =
-  PortableTextComponent<PortableTextListItemBlock>;
+export type PortableTextListItemComponent = PortableTextComponent<PortableTextListItemBlock>;
 
 /**
  * Vue component type for rendering portable text marks and/or decorators
  *
  * @template M The mark type we expect
  */
-export type PortableTextMarkComponent<M extends TypedObject = any> =
-  | VueComponent<PortableTextMarkComponentProps<M>>
-  | string;
+export type PortableTextMarkComponent<M extends TypedObject = any> = VueComponent<
+  PortableTextMarkComponentProps<M>
+>;
 
-export type PortableTextTypeComponent<V extends TypedObject = any> =
-  | VueComponent<PortableTextTypeComponentProps<V>>
-  | string;
+export type PortableTextTypeComponent<V extends TypedObject = any> = VueComponent<
+  PortableTextTypeComponentProps<V>
+>;
 
 /**
  * Object defining the different Vue components to use for rendering various aspects
@@ -161,10 +152,7 @@ export interface PortableTextVueComponents {
    * Can also be set to a single Vue component, which would handle list items of _any_ type.
    */
   listItem:
-    | Record<
-        PortableTextListItemType,
-        PortableTextListItemComponent | undefined
-      >
+    | Record<PortableTextListItemType, PortableTextListItemComponent | undefined>
     | PortableTextListItemComponent;
 
   /**
@@ -227,11 +215,6 @@ export interface PortableTextComponentProps<T> {
   isInline: boolean;
 
   /**
-   * Vue child nodes of this block/component
-   */
-  // children?: VueNode;
-
-  /**
    * Function used to render any node that might appear in a portable text array or block,
    * including virtual "toolkit"-nodes like lists and nested spans. You will rarely need
    * to use this.
@@ -244,19 +227,14 @@ export interface PortableTextComponentProps<T> {
  *
  * @template T Type of data this component will receive in its `value` property
  */
-export type PortableTextTypeComponentProps<T> = Omit<
-  PortableTextComponentProps<T>,
-  'children'
->;
+export type PortableTextTypeComponentProps<T> = Omit<PortableTextComponentProps<T>, 'children'>;
 
 /**
  * Props received by Portable Text mark rendering components
  *
  * @template M Shape describing the data associated with this mark, if it is an annotation
  */
-export interface PortableTextMarkComponentProps<
-  M extends TypedObject = ArbitraryTypedObject
-> {
+export interface PortableTextMarkComponentProps<M extends TypedObject = ArbitraryTypedObject> {
   /**
    * Mark definition, eg the actual data of the annotation. If the mark is a simple decorator, this will be `undefined`
    */
@@ -278,11 +256,6 @@ export interface PortableTextMarkComponentProps<
   markType: string;
 
   /**
-   * Vue child nodes of this mark
-   */
-  children: VueNode;
-
-  /**
    * Function used to render any node that might appear in a portable text array or block,
    * including virtual "toolkit"-nodes like lists and nested spans. You will rarely need
    * to use this.
@@ -294,28 +267,19 @@ export interface PortableTextMarkComponentProps<
  * Any node type that we can't identify - eg it has an `_type`,
  * but we don't know anything about its other properties
  */
-export type UnknownNodeType =
-  | { [key: string]: unknown; _type: string }
-  | TypedObject;
+export type UnknownNodeType = { [key: string]: unknown; _type: string } | TypedObject;
 
 /**
  * Function that renders any node that might appear in a portable text array or block,
  * including virtual "toolkit"-nodes like lists and nested spans
  */
-export type NodeRenderer = <T extends TypedObject>(
-  options: Serializable<T>
-) => VueNode;
+export type NodeRenderer = <T extends TypedObject>(options: Serializable<T>) => VueNode;
 
-export type NodeType =
-  | 'block'
-  | 'mark'
-  | 'blockStyle'
-  | 'listStyle'
-  | 'listItemStyle';
+export type NodeType = 'block' | 'mark' | 'blockStyle' | 'listStyle' | 'listItemStyle';
 
 export type MissingComponentHandler = (
   message: string,
-  options: { type: string; nodeType: NodeType }
+  options: { type: string; nodeType: NodeType },
 ) => void;
 
 export interface Serializable<T> {

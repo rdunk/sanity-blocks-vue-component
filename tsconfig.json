@@ -1,35 +1,13 @@
 {
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "include": ["./package.json", "./src"],
   "compilerOptions": {
-    "baseUrl": ".",
-    "declaration": true,
-    "declarationMap": false,
-    "downlevelIteration": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "lib": ["es2019"],
-    "moduleResolution": "node",
-    "noEmitOnError": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "rootDir": ".",
     "outDir": "./dist",
-    "pretty": true,
-    "rootDir": "src",
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "strict": true,
-    "strictFunctionTypes": true,
-    "strictNullChecks": true,
-    "target": "es5"
-  },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
-  "exclude": [
-    "**/*.test.ts",
-    "**/*.test.tsx",
-    "**/test/*",
-    "node_modules",
-    "**/node_modules/*"
-  ]
+
+    "lib": ["ES2016", "DOM"],
+    "noUncheckedIndexedAccess": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  }
 }

@@ -1,15 +1,10 @@
 import { h } from 'vue';
 import { expect, test } from 'vitest';
 import { mount } from '@vue/test-utils';
-import {
-  PortableText,
-  PortableTextVueComponents,
-  PortableTextProps,
-} from '../src';
+import { PortableText, PortableTextVueComponents, PortableTextProps } from '../src';
 import * as fixtures from './fixtures';
 
-const render = (props: PortableTextProps) =>
-  mount(PortableText, { props }).html({ raw: true });
+const render = (props: PortableTextProps) => mount(PortableText, { props }).html({ raw: true });
 
 test('never mutates input', () => {
   for (const [key, fixture] of Object.entries(fixtures)) {

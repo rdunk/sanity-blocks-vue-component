@@ -1,4 +1,4 @@
-import type {PortableTextBlock} from '@portabletext/types'
+import type { PortableTextBlock } from '@portabletext/types';
 
 const input: PortableTextBlock[] = [
   {
@@ -299,7 +299,7 @@ const input: PortableTextBlock[] = [
       },
     ],
   },
-]
+];
 
 export default {
   input,
@@ -356,4 +356,4 @@ export default {
     '</ol>',
     '<ul><li>New bullet list</li></ul>',
   ].join(''),
-}
+};

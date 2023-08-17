@@ -1,10 +1,7 @@
-import {h, defineComponent} from 'vue';
-import type {PropType} from 'vue';
-import {
-  LIST_NEST_MODE_HTML,
-  ToolkitNestedPortableTextSpan,
-  ToolkitTextNode,
-} from '@portabletext/toolkit';
+import { h, defineComponent } from 'vue';
+import type { PropType } from 'vue';
+import { LIST_NEST_MODE_HTML } from '@portabletext/toolkit';
+import type { ToolkitNestedPortableTextSpan, ToolkitTextNode } from '@portabletext/toolkit';
 import type {
   MissingComponentHandler,
   NodeRenderer,
@@ -32,8 +29,8 @@ import type {
   PortableTextSpan,
   TypedObject,
 } from '@portabletext/types';
-import {mergeComponents} from './components/merge';
-import {defaultComponents} from './components/defaults';
+import { mergeComponents } from './components/merge';
+import { defaultComponents } from './components/defaults';
 import {
   printWarning,
   unknownBlockStyleWarning,
@@ -74,7 +71,7 @@ export const PortableText = defineComponent({
     const renderNode = getNodeRenderer(components, handleMissingComponent);
 
     const rendered = nested.map((node, index) =>
-      renderNode({node: node, index, isInline: false, renderNode}),
+      renderNode({ node: node, index, isInline: false, renderNode }),
     );
 
     return () => rendered;
@@ -98,10 +95,9 @@ export function PortableTextR<B extends TypedObject = PortableTextBlock>({
   const renderNode = getNodeRenderer(components, handleMissingComponent);
 
   const rendered = nested.map((node, index) =>
-    renderNode({node: node, index, isInline: false, renderNode}),
+    renderNode({ node: node, index, isInline: false, renderNode }),
   );
 
-  // return <>{rendered}</>;
   return rendered;
 }
 
@@ -110,7 +106,7 @@ const getNodeRenderer = (
   handleMissingComponent: MissingComponentHandler,
 ): NodeRenderer => {
   function renderNode<N extends TypedObject>(options: Serializable<N>): VueNode {
-    const {node, index, isInline} = options;
+    const { node, index, isInline } = options;
     const key = node._key || `node-${index}`;
 
     if (isPortableTextToolkitList(node)) {
@@ -149,7 +145,7 @@ const getNodeRenderer = (
     index: number,
     key: string,
   ) {
-    const tree = serializeBlock({node, index, isInline: false, renderNode});
+    const tree = serializeBlock({ node, index, isInline: false, renderNode });
     const renderer = components.listItem;
     const handler = typeof renderer === 'function' ? renderer : renderer[node.listItem];
     const Li = handler || components.unknownListItem;
@@ -165,7 +161,7 @@ const getNodeRenderer = (
     let children = tree.children;
     if (node.style && node.style !== 'normal') {
       // Wrap any other style in whatever the block serializer says to use
-      const {listItem, ...blockNode} = node;
+      const { listItem, ...blockNode } = node;
       children = renderNode({
         node: blockNode,
         index,
@@ -174,17 +170,6 @@ const getNodeRenderer = (
       });
     }
 
-    // return (
-    //   <Li
-    //     key={key}
-    //     value={node}
-    //     index={index}
-    //     isInline={false}
-    //     renderNode={renderNode}
-    //   >
-    //     {children}
-    //   </Li>
-    // );
     return h(
       Li,
       {
@@ -201,7 +186,7 @@ const getNodeRenderer = (
   function renderList(node: ReactPortableTextList, index: number, key: string) {
     const children = node.children.map((child, childIndex) =>
       renderNode({
-        node: child._key ? child : {...child, _key: `li-${index}-${childIndex}`},
+        node: child._key ? child : { ...child, _key: `li-${index}-${childIndex}` },
         index: childIndex,
         isInline: false,
         renderNode,
@@ -234,10 +219,10 @@ const getNodeRenderer = (
   }
 
   function renderSpan(node: ToolkitNestedPortableTextSpan, _index: number, key: string) {
-    const {markDef, markType, markKey} = node;
+    const { markDef, markType, markKey } = node;
     const Span = components.marks[markType] || components.unknownMark;
     const children = node.children.map((child, childIndex) =>
-      renderNode({node: child, index: childIndex, isInline: true, renderNode}),
+      renderNode({ node: child, index: childIndex, isInline: true, renderNode }),
     );
 
     if (Span === components.unknownMark) {
@@ -247,18 +232,6 @@ const getNodeRenderer = (
       });
     }
 
-    // return (
-    //   <Span
-    //     key={key}
-    //     text={spanToPlainText(node)}
-    //     value={markDef}
-    //     markType={markType}
-    //     markKey={markKey}
-    //     renderNode={renderNode}
-    //   >
-    //     {children}
-    //   </Span>
-    // );
     return h(
       Span,
       {
@@ -274,7 +247,7 @@ const getNodeRenderer = (
   }
 
   function renderBlock(node: PortableTextBlock, index: number, key: string, isInline: boolean) {
-    const {_key, children, ...props} = serializeBlock({
+    const { _key, children, ...props } = serializeBlock({
       node,
       index,
       isInline,
@@ -292,18 +265,14 @@ const getNodeRenderer = (
       });
     }
 
-    // return (
-    //   <Block key={key} {...props} value={props.node} renderNode={renderNode} />
-    // );
-
-    return h(Block, {key, ...props, value: props.node, renderNode}, () => children);
+    return h(Block, { key, ...props, value: props.node, renderNode }, () => children);
   }
 
   function renderText(node: ToolkitTextNode, key: string) {
     if (node.text === '\n') {
       const HardBreak = components.hardBreak;
       // return HardBreak ? <HardBreak key={key} /> : '\n';
-      return HardBreak ? h(HardBreak, {key}) : '\n';
+      return HardBreak ? h(HardBreak, { key }) : '\n';
     }
 
     return node.text;
@@ -323,7 +292,7 @@ const getNodeRenderer = (
     });
 
     const UnknownType = components.unknownType;
-    return h(UnknownType, {key, ...nodeOptions});
+    return h(UnknownType, { key, ...nodeOptions });
   }
 
   function renderCustomBlock(node: TypedObject, index: number, key: string, isInline: boolean) {
@@ -335,18 +304,18 @@ const getNodeRenderer = (
     };
 
     const Node = components.types[node._type];
-    return Node ? h(Node, {key, ...nodeOptions}) : undefined;
+    return Node ? h(Node, { key, ...nodeOptions }) : undefined;
   }
 
   return renderNode;
 };
 
 function serializeBlock(options: Serializable<PortableTextBlock>): SerializedBlock {
-  const {node, index, isInline, renderNode} = options;
+  const { node, index, isInline, renderNode } = options;
   const tree = buildMarksTree(node);
   const children = tree.map((child, i) =>
-    renderNode({node: child, isInline: true, index: i, renderNode}),
-  ) as VueNode; // @TODO Hmm...
+    renderNode({ node: child, isInline: true, index: i, renderNode }),
+  ) as VueNode; // @todo Is casting here acceptable?
 
   return {
     _key: node._key || `block-${index}`,

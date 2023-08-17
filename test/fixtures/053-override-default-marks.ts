@@ -1,4 +1,4 @@
-import type {PortableTextBlock} from '@portabletext/types'
+import type { PortableTextBlock } from '@portabletext/types';
 
 const input: PortableTextBlock = {
   _type: 'block',
@@ -17,9 +17,9 @@ const input: PortableTextBlock = {
       href: 'https://sanity.io',
     },
   ],
-}
+};
 
 export default {
   input,
   output: '<p><a class="mahlink" href="https://sanity.io">Sanity</a></p>',
-}
+};

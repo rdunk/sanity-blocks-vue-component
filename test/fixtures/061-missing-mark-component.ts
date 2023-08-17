@@ -1,4 +1,4 @@
-import type {PortableTextBlock} from '@portabletext/types'
+import type { PortableTextBlock } from '@portabletext/types';
 
 const input: PortableTextBlock = {
   _type: 'block',
@@ -23,10 +23,10 @@ const input: PortableTextBlock = {
     },
   ],
   markDefs: [],
-}
+};
 
 export default {
   input,
   output:
     '<p><span class="unknown__pt__mark__abc">A word of <em>warning;</em></span> Sanity is addictive.</p>',
-}
+};

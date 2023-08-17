@@ -3,8 +3,7 @@ import { expect, test } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { PortableText, PortableTextProps } from '../src';
 
-const render = (props: PortableTextProps) =>
-  mount(PortableText, { props }).html({ raw: true });
+const render = (props: PortableTextProps) => mount(PortableText, { props }).html({ raw: true });
 
 test('can override unknown mark component', () => {
   const result = render({
@@ -18,14 +17,11 @@ test('can override unknown mark component', () => {
     },
     components: {
       unknownMark: ({ markType }, { slots }) => {
-        return h('span', { class: 'unknown' }, [
-          `Unknown (${markType}): `,
-          slots.default?.(),
-        ]);
+        return h('span', { class: 'unknown' }, [`Unknown (${markType}): `, slots.default?.()]);
       },
     },
   });
   expect(result).toBe(
-    '<p><span class="unknown">Unknown (unknown-deco): simple</span><span class="unknown">Unknown (unknown-mark): advanced</span></p>'
+    '<p><span class="unknown">Unknown (unknown-deco): simple</span><span class="unknown">Unknown (unknown-mark): advanced</span></p>',
   );
 });

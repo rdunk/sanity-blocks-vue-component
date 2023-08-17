@@ -1,41 +1,18 @@
-import type {
-  PortableTextVueComponents,
-  PortableTextComponents,
-} from '../types';
+import type { PortableTextVueComponents, PortableTextComponents } from '../types';
 
 export function mergeComponents(
   parent: PortableTextVueComponents,
-  overrides: PortableTextComponents
+  overrides: PortableTextComponents,
 ): PortableTextVueComponents {
   const { block, list, listItem, marks, types, ...rest } = overrides;
   // @todo figure out how to not `as ...` these
   return {
     ...parent,
-    block: mergeDeeply(
-      parent,
-      overrides,
-      'block'
-    ) as PortableTextVueComponents['block'],
-    list: mergeDeeply(
-      parent,
-      overrides,
-      'list'
-    ) as PortableTextVueComponents['list'],
-    listItem: mergeDeeply(
-      parent,
-      overrides,
-      'listItem'
-    ) as PortableTextVueComponents['listItem'],
-    marks: mergeDeeply(
-      parent,
-      overrides,
-      'marks'
-    ) as PortableTextVueComponents['marks'],
-    types: mergeDeeply(
-      parent,
-      overrides,
-      'types'
-    ) as PortableTextVueComponents['types'],
+    block: mergeDeeply(parent, overrides, 'block') as PortableTextVueComponents['block'],
+    list: mergeDeeply(parent, overrides, 'list') as PortableTextVueComponents['list'],
+    listItem: mergeDeeply(parent, overrides, 'listItem') as PortableTextVueComponents['listItem'],
+    marks: mergeDeeply(parent, overrides, 'marks') as PortableTextVueComponents['marks'],
+    types: mergeDeeply(parent, overrides, 'types') as PortableTextVueComponents['types'],
     ...rest,
   };
 }
@@ -43,7 +20,7 @@ export function mergeComponents(
 function mergeDeeply(
   parent: PortableTextVueComponents,
   overrides: PortableTextComponents,
-  key: 'block' | 'list' | 'listItem' | 'marks' | 'types'
+  key: 'block' | 'list' | 'listItem' | 'marks' | 'types',
 ): PortableTextVueComponents[typeof key] {
   const override = overrides[key];
   const parentVal = parent[key];

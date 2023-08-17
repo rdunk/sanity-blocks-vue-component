@@ -1,9 +1,6 @@
 import { h } from 'vue';
 import type { PortableTextBlockStyle } from '@portabletext/types';
-import type {
-  PortableTextBlockComponent,
-  PortableTextVueComponents,
-} from '../types';
+import type { PortableTextBlockComponent, PortableTextVueComponents } from '../types';
 import { defaultMarks } from './marks';
 import { defaultLists, DefaultListItem } from './list';
 import {

@@ -1,4 +1,4 @@
-import type {PortableTextBlock} from '@portabletext/types'
+import type { PortableTextBlock } from '@portabletext/types';
 
 const input: PortableTextBlock = {
   _key: 'R5FvMrjo',
@@ -13,9 +13,9 @@ const input: PortableTextBlock = {
   ],
   markDefs: [],
   style: 'h2',
-}
+};
 
 export default {
   input,
   output: '<h2>Dat heading</h2>',
-}
+};
