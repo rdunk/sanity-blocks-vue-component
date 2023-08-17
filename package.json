@@ -2,16 +2,16 @@
   "name": "sanity-blocks-vue-component",
   "version": "1.0.1",
   "description": "Vue 3 component for transforming Sanity block content",
-  "author": "Rupert Dunk <rupert@rupertdunk.com> (http://rupertdunk.com)",
-  "license": "MIT",
+  "homepage": "https://github.com/rdunk/sanity-blocks-vue-component#readme",
+  "bugs": {
+    "url": "https://github.com/rdunk/sanity-blocks-vue-component/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rdunk/sanity-blocks-vue-component.git"
   },
-  "bugs": {
-    "url": "https://github.com/rdunk/sanity-blocks-vue-component/issues"
-  },
-  "homepage": "https://github.com/rdunk/sanity-blocks-vue-component#readme",
+  "license": "MIT",
+  "author": "Rupert Dunk <rupert@rupertdunk.com> (http://rupertdunk.com)",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.js",
@@ -19,13 +19,25 @@
     "build": "npm run clean && npm run build:pkg",
     "build:pkg": "rollup -c rollup.config.js",
     "clean": "rimraf dist coverage",
-    "postpublish": "npm run clean",
+    "format": "prettier --write --cache --ignore-unknown .",
     "prepublishOnly": "npm run build",
-    "test": "jest"
+    "postpublish": "npm run clean",
+    "test": "vitest"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "plugins": [
+      "prettier-plugin-packagejson"
+    ],
+    "printWidth": 100,
+    "semi": true,
+    "singleQuote": true
   },
   "dependencies": {
+    "@portabletext/toolkit": "^2.0.4",
+    "@portabletext/types": "^2.0.5",
     "lodash.merge": "^4.6.2",
-    "vue": "^3.0.0"
+    "vue": "^3.3.4"
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",
@@ -33,15 +45,20 @@
     "@rollup/plugin-babel": "^5.3.0",
     "@types/jest": "^26.0.20",
     "@types/lodash.merge": "^4.6.6",
-    "@vue/compiler-sfc": "^3.0.7",
-    "@vue/test-utils": "^2.0.0-rc.3",
-    "jest": "^26.6.3",
+    "@vitejs/plugin-vue": "^4.3.1",
+    "@vue/compiler-sfc": "^3.3.4",
+    "@vue/test-utils": "^2.4.1",
+    "esbuild": "^0.19.2",
+    "esbuild-register": "^3.4.2",
+    "happy-dom": "^10.10.2",
+    "prettier": "^3.0.2",
+    "prettier-plugin-packagejson": "^2.4.5",
     "rimraf": "^3.0.2",
     "rollup": "^2.41.1",
     "rollup-plugin-typescript2": "^0.30.0",
     "ts-jest": "^26.5.3",
     "tslib": "^2.1.0",
     "typescript": "^4.2.3",
-    "vue-jest": "^5.0.0-alpha.7"
+    "vitest": "^0.34.2"
   }
 }
