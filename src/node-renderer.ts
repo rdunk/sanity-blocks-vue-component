@@ -1,27 +1,14 @@
-import { h, defineComponent } from 'vue';
-import type { PropType } from 'vue';
-import { LIST_NEST_MODE_HTML } from '@portabletext/toolkit';
+import { h } from 'vue';
 import type { ToolkitNestedPortableTextSpan, ToolkitTextNode } from '@portabletext/toolkit';
 import type {
   MissingComponentHandler,
   NodeRenderer,
-  PortableTextProps,
   PortableTextVueComponents,
   ReactPortableTextList,
   Serializable,
   SerializedBlock,
   VueNode,
 } from './types';
-import {
-  isPortableTextBlock,
-  isPortableTextListItemBlock,
-  isPortableTextToolkitList,
-  isPortableTextToolkitSpan,
-  isPortableTextToolkitTextNode,
-  nestLists,
-  spanToPlainText,
-  buildMarksTree,
-} from '@portabletext/toolkit';
 import type {
   PortableTextBlock,
   PortableTextListItemBlock,
@@ -29,10 +16,16 @@ import type {
   PortableTextSpan,
   TypedObject,
 } from '@portabletext/types';
-import { mergeComponents } from './components/merge';
-import { defaultComponents } from './components/defaults';
 import {
-  printWarning,
+  isPortableTextBlock,
+  isPortableTextListItemBlock,
+  isPortableTextToolkitList,
+  isPortableTextToolkitSpan,
+  isPortableTextToolkitTextNode,
+  spanToPlainText,
+  buildMarksTree,
+} from '@portabletext/toolkit';
+import {
   unknownBlockStyleWarning,
   unknownListItemStyleWarning,
   unknownListStyleWarning,
@@ -40,68 +33,7 @@ import {
   unknownTypeWarning,
 } from './warnings';
 
-export const PortableText = defineComponent({
-  name: 'PortableText',
-  props: {
-    value: {
-      type: [Object, Array] as PropType<TypedObject | TypedObject[]>,
-      required: true,
-    },
-    components: {
-      type: Object as PropType<Partial<PortableTextVueComponents> | undefined>,
-      required: false,
-    },
-    listNestingMode: {
-      type: null,
-    },
-    onMissingComponent: {
-      type: null,
-      default: printWarning,
-    },
-  },
-  setup(props) {
-    const handleMissingComponent = props.onMissingComponent || noop;
-    const blocks = Array.isArray(props.value) ? props.value : [props.value];
-    const nested = nestLists(blocks, props.listNestingMode || LIST_NEST_MODE_HTML);
-
-    const components = props.components
-      ? mergeComponents(defaultComponents, props.components)
-      : defaultComponents;
-
-    const renderNode = getNodeRenderer(components, handleMissingComponent);
-
-    const rendered = nested.map((node, index) =>
-      renderNode({ node: node, index, isInline: false, renderNode }),
-    );
-
-    return () => rendered;
-  },
-});
-
-export function PortableTextR<B extends TypedObject = PortableTextBlock>({
-  value: input,
-  components: componentOverrides,
-  listNestingMode,
-  onMissingComponent: missingComponentHandler = printWarning,
-}: PortableTextProps<B>) {
-  const handleMissingComponent = missingComponentHandler || noop;
-  const blocks = Array.isArray(input) ? input : [input];
-  const nested = nestLists(blocks, listNestingMode || LIST_NEST_MODE_HTML);
-
-  const components = componentOverrides
-    ? mergeComponents(defaultComponents, componentOverrides)
-    : defaultComponents;
-
-  const renderNode = getNodeRenderer(components, handleMissingComponent);
-
-  const rendered = nested.map((node, index) =>
-    renderNode({ node: node, index, isInline: false, renderNode }),
-  );
-
-  return rendered;
-}
-
-const getNodeRenderer = (
+export const getNodeRenderer = (
   components: PortableTextVueComponents,
   handleMissingComponent: MissingComponentHandler,
 ): NodeRenderer => {
@@ -271,7 +203,6 @@ const getNodeRenderer = (
   function renderText(node: ToolkitTextNode, key: string) {
     if (node.text === '\n') {
       const HardBreak = components.hardBreak;
-      // return HardBreak ? <HardBreak key={key} /> : '\n';
       return HardBreak ? h(HardBreak, { key }) : '\n';
     }
 
@@ -324,8 +255,4 @@ function serializeBlock(options: Serializable<PortableTextBlock>): SerializedBlo
     isInline,
     node,
   };
-}
-
-function noop() {
-  // Intentional noop
 }

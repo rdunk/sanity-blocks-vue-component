@@ -6,6 +6,8 @@ Render [Portable Text](https://portabletext.org/) with Vue.
 
 Migrating from [sanity-blocks-vue-component](https://www.npmjs.com/package/rdunk/sanity-blocks-vue-component)? Refer to the [migration docs](https://github.com/portabletext/vue-portabletext/blob/main/MIGRATING.md).
 
+Note that for terseness, [render functions](https://vuejs.org/guide/extras/render-function.html) are used for many of examples below for simple elements, but single file components or JSX can also be used just as easily.
+
 ## Table of contents
 
 - [Installation](#installation)
@@ -39,10 +41,8 @@ import { PortableText } from '@portabletext/vue';
 
 <template>
   <PortableText
-    :value="[
-      /* array of portable text blocks */
-    ]"
-    :components="/* optional object of custom components to use */"
+    :value="[/* array of portable text blocks */]"
+    :components="{/* optional object of custom components to use */}"
   />
 </template>
 ```
@@ -57,33 +57,31 @@ Default components are provided for all standard features of the Portable Text s
 
 Provided components will be merged with the defaults. In other words, you only need to provide the things you want to override.
 
-```js
+```vue
+<script setup>
+import { PortableText } from '@portabletext/vue';
+
 const myPortableTextComponents = {
   types: {
-    image: ({ value }) => <img src={value.imageUrl} />,
-    callToAction: ({ value, isInline }) =>
-      isInline ? (
-        <a href={value.url}>{value.text}</a>
-      ) : (
-        <div className="callToAction">{value.text}</div>
-      ),
+    image: ({ value }) => h('img', { src: value.imageUrl }),
+    callToAction: ({ value, isInline }, { slots }) =>
+      isInline
+        ? h('a', { href: value.url }, value.text)
+        : h('div', { class: 'callToAction' }, value.text),
   },
 
   marks: {
-    link: ({ children, value }) => {
+    link: ({ value }, { slots }) => {
       const rel = !value.href.startsWith('/') ? 'noreferrer noopener' : undefined;
-      return (
-        <a href={value.href} rel={rel}>
-          {children}
-        </a>
-      );
+      return h('a', { href: value.href, rel }, slots.default?.());
     },
   },
 };
+</script>
 
-const YourComponent = (props) => {
-  return <PortableText value={props.value} components={myPortableTextComponents} />;
-};
+<template>
+  <PortableText :value="props.value" :components="myPortableTextComponents" />
+</template>
 ```
 
 ## Available components
@@ -100,7 +98,8 @@ The object has the shape `{typeName: ReactComponent}`, where `typeName` is the v
 
 Example of rendering a custom `image` object:
 
-```jsx
+```vue
+<script setup>
 import { PortableText } from '@portabletext/vue';
 import urlBuilder from '@sanity/image-url';
 import { getImageDimensions } from '@sanity/asset-utils';
@@ -108,25 +107,22 @@ import { getImageDimensions } from '@sanity/asset-utils';
 // Barebones lazy-loaded image component
 const SampleImageComponent = ({ value, isInline }) => {
   const { width, height } = getImageDimensions(value);
-  return (
-    <img
-      src={urlBuilder()
-        .image(value)
-        .width(isInline ? 100 : 800)
-        .fit('max')
-        .auto('format')
-        .url()}
-      alt={value.alt || ' '}
-      loading="lazy"
-      style={{
-        // Display alongside text if image appears inside a block text span
-        display: isInline ? 'inline-block' : 'block',
-
-        // Avoid jumping around with aspect-ratio CSS property
-        aspectRatio: width / height,
-      }}
-    />
-  );
+  return h('img', {
+    src: urlBuilder()
+      .image(value)
+      .width(isInline ? 100 : 800)
+      .fit('max')
+      .auto('format')
+      .url(),
+    alt: value.alt || ' ',
+    loading: 'lazy',
+    style: {
+      // Display alongside text if image appears inside a block text span
+      display: isInline ? 'inline-block' : 'block',
+      // Avoid jumping around with aspect-ratio CSS property
+      aspectRatio: width / height,
+    },
+  });
 };
 
 const components = {
@@ -136,10 +132,11 @@ const components = {
     // Examples: mapLocation, contactForm, code, featuredProjects, latestNews, etc.
   },
 };
+</script>
 
-const YourComponent = (props) => {
-  return <PortableText value={somePortableTextInput} components={components} />;
-};
+<template>
+  <PortableText :value="somePortableTextInput" :components="components" />
+</template>
 ```
 
 ### `marks`
@@ -148,24 +145,25 @@ Object of Vue components that renders different types of marks that might appear
 
 If the mark is a decorator, the component will receive a `markType` prop which has the name of the decorator (eg `em`). If the mark is an annotation, it will receive both a `markType` with the associated `_type` property (eg `link`), and a `value` property with an object holding the data for this mark.
 
-The component also receives a `children` prop that should (usually) be returned in whatever parent container component makes sense for this mark (eg `<a>`, `<em>`).
+The component also receives any children in the default slot that should (usually) be returned in whatever parent container component makes sense for this mark (eg `<a>`, `<em>`).
 
-```tsx
+```ts
 // `components` object you'll pass to PortableText w/ optional TS definition
 import { PortableTextComponents } from '@portabletext/vue';
 
 const components: PortableTextComponents = {
   marks: {
     // Ex. 1: custom renderer for the em / italics decorator
-    em: ({ children }) => <em className="text-gray-600 font-semibold">{children}</em>,
+    em: (_, { slots }) => h('em', { class: 'text-gray-600 font-semibold' }, slots.default?.()),
 
     // Ex. 2: rendering a custom `link` annotation
-    link: ({ value, children }) => {
+    link: ({ value }, { slots }) => {
       const target = (value?.href || '').startsWith('http') ? '_blank' : undefined;
-      return (
-        <a href={value?.href} target={target} rel={target === '_blank' && 'noindex nofollow'}>
-          {children}
-        </a>
+      return;
+      h(
+        'a',
+        { href: value?.href, target, rel: target === '_blank' && 'noindex nofollow' },
+        slots.default?.(),
       );
     },
   },
@@ -176,20 +174,18 @@ const components: PortableTextComponents = {
 
 An object of Vue components that renders portable text blocks with different `style` properties. The object has the shape `{styleName: ReactComponent}`, where `styleName` is the value set in individual `style` attributes on blocks (`normal` being the default).
 
-```jsx
+```ts
 // `components` object you'll pass to PortableText
 const components = {
   block: {
     // Ex. 1: customizing common block types
-    h1: ({ children }) => <h1 className="text-2xl">{children}</h1>,
-    blockquote: ({ children }) => (
-      <blockquote className="border-l-purple-500">{children}</blockquote>
-    ),
+    h1: (_, { slots }) => h('h1', { class: 'text-2xl' }, slots.default?.()),
+    blockquote: (_, { slots }) =>
+      h('blockquote', { class: 'border-l-purple-500' }, slots.default?.()),
 
     // Ex. 2: rendering custom styles
-    customHeading: ({ children }) => (
-      <h2 className="text-lg text-primary text-purple-700">{children}</h2>
-    ),
+    customHeading: (_, { slots }) =>
+      h('h2', { class: 'text-lg text-primary text-purple-700' }, slots.default?.()),
   },
 };
 ```
@@ -202,15 +198,15 @@ Object of Vue components used to render lists of different types (`bullet` vs `n
 
 Note that there is no actual "list" node type in the Portable Text specification, but a series of list item blocks with the same `level` and `listItem` properties will be grouped into a virtual one inside of this library.
 
-```jsx
+```ts
 const components = {
   list: {
     // Ex. 1: customizing common list types
-    bullet: ({ children }) => <ul className="mt-xl">{children}</ul>,
-    number: ({ children }) => <ol className="mt-lg">{children}</ol>,
+    bullet: (_, { slots }) => h('ul', { class: 'mt-xl' }, slots.default?.()),
+    number: (_, { slots }) => h('ol', { class: 'mt-lg' }, slots.default?.()),
 
     // Ex. 2: rendering custom lists
-    checkmarks: ({ children }) => <ol className="m-auto text-lg">{children}</ol>,
+    checkmarks: (_, { slots }) => h('ol', { class: 'm-auto text-lg' }, slots.default?.()),
   },
 };
 ```
@@ -221,14 +217,15 @@ The `list` property can also be set to a single Vue component, which would handl
 
 Object of Vue components used to render different list item styles. The object has the shape `{listItemType: ReactComponent}`, where `listItemType` is the value set in individual `listItem` attributes on blocks.
 
-```jsx
+```ts
 const components = {
   listItem: {
     // Ex. 1: customizing common list types
-    bullet: ({ children }) => <li style={{ listStyleType: 'disclosure-closed' }}>{children}</li>,
+    bullet: (_, { slots }) =>
+      h('li', { style: { listStyleType: 'disclosure-closed' } }, slots.default?.()),
 
     // Ex. 2: rendering custom list items
-    checkmarks: ({ children }) => <li>✅ {children}</li>,
+    checkmarks: (_, { slots }) => h('li', ['✅', slots.default?.()]),
   },
 };
 ```
@@ -267,54 +264,58 @@ When the library encounters a block, mark, list or list item with a type that is
 
 To disable this behavior, you can either pass `false` to the `onMissingComponent` property, or give it a custom function you want to use to report the error. For instance:
 
-```tsx
-import {PortableText} from '@portabletext/vue'
+```vue
+<script setup>
+import { PortableText } from '@portabletext/vue';
 
-<PortableText
-  value={[/* array of portable text blocks */]}
-  onMissingComponent={false}
-/>
+const onMissingComponent = (message, options) => {
+  myErrorLogger.report(message, {
+    // eg `someUnknownType`
+    type: options.type,
+    // 'block' | 'mark' | 'blockStyle' | 'listStyle' | 'listItemStyle'
+    nodeType: options.nodeType,
+  });
+};
+</script>
 
-// or, pass it a function:
-
-<PortableText
-  value={[/* array of portable text blocks */]}
-  onMissingComponent={(message, options) => {
-    myErrorLogger.report(message, {
-      // eg `someUnknownType`
-      type: options.type,
-
-      // 'block' | 'mark' | 'blockStyle' | 'listStyle' | 'listItemStyle'
-      nodeType: options.nodeType
-    })
-  }}
-/>
+<template>
+  <PortableText
+    :value="[/* array of portable text blocks */]"
+    :onMissingComponent="false"
+  />
+  <!-- or, pass the function: -->
+  <PortableText
+    :value="[/* array of portable text blocks */]"
+    :onMissingComponent="onMissingComponent"
+  />
+</template>
 ```
 
 ## Rendering Plain Text
 
 This module also exports a function (`toPlainText()`) that will render one or more Portable Text blocks as plain text. This is helpful in cases where formatted text is not supported, or you need to process the raw text value.
 
-For instance, to render an OpenGraph meta description for a page:
+For instance, to render a meta description for a page:
 
-```tsx
+```ts
 import { toPlainText } from '@portabletext/vue';
 
-const MetaDescription = (myPortableTextData) => {
-  return <meta name="og:description" value={toPlainText(myPortableTextData)} />;
-};
+// Imported from @unhead/vue
+useHead({
+  meta: [{ name: 'description', value: toPlainText(myPortableTextData) }],
+});
 ```
 
 Or to generate element IDs for headers, in order for them to be linkable:
 
-```tsx
+```ts
 import { PortableText, toPlainText, PortableTextComponents } from '@portabletext/vue';
 import slugify from 'slugify';
 
-const LinkableHeader = ({ children, value }) => {
+const LinkableHeader = ({ value }, { slots }) => {
   // `value` is the single Portable Text block of this header
   const slug = slugify(toPlainText(value));
-  return <h2 id={slug}>{children}</h2>;
+  return h('h2', { id: slug }, slots.default?.());
 };
 
 const components: PortableTextComponents = {
@@ -417,6 +418,10 @@ interface MyDocumentType {
 }
 ```
 
+## Credits
+
+This repository is adapted from [@portabletext/react](https://github.com/portabletext/react-portabletext) which provided the vast majority of node rendering logic.
+
 ## License
 
-MIT © [Sanity.io](https://www.sanity.io/)
+MIT

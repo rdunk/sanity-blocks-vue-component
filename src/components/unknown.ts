@@ -1,7 +1,7 @@
 import { h } from 'vue';
 import type { PortableTextVueComponents } from '../types';
 import { unknownTypeWarning } from '../warnings';
-import { basicElement } from './empty';
+import { basicElement } from './basic';
 
 const hidden = { display: 'none' };
 

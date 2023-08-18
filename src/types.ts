@@ -83,7 +83,7 @@ export type PortableTextMarkComponent<M extends TypedObject = any> = VueComponen
 >;
 
 export type PortableTextTypeComponent<V extends TypedObject = any> = VueComponent<
-  PortableTextTypeComponentProps<V>
+  PortableTextComponentProps<V>
 >;
 
 /**
@@ -221,13 +221,6 @@ export interface PortableTextComponentProps<T> {
    */
   renderNode: NodeRenderer;
 }
-
-/**
- * Props received by any user-defined type in the input array that is not a text block
- *
- * @template T Type of data this component will receive in its `value` property
- */
-export type PortableTextTypeComponentProps<T> = Omit<PortableTextComponentProps<T>, 'children'>;
 
 /**
  * Props received by Portable Text mark rendering components

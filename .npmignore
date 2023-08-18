@@ -1,9 +1,8 @@
-.babelrc
 .gitignore
 .prettierrc
-jest.config.js
 node_modules
 rollup.config.js
 src
 test
 tsconfig.json
+vite.config.json

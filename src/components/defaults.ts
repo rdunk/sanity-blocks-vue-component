@@ -10,7 +10,7 @@ import {
   DefaultUnknownListItem,
   DefaultUnknownBlockStyle,
 } from './unknown';
-import { basicElement } from './empty';
+import { basicElement } from './basic';
 
 export const DefaultHardBreak = () => h('br');
 

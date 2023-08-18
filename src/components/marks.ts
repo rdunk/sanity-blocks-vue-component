@@ -1,7 +1,7 @@
 import { h } from 'vue';
 import type { TypedObject } from '@portabletext/types';
 import type { PortableTextMarkComponent } from '../types';
-import { basicElement } from './empty';
+import { basicElement } from './basic';
 
 interface DefaultLink extends TypedObject {
   _type: 'link';

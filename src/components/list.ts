@@ -1,5 +1,5 @@
 import type { PortableTextListComponent, PortableTextListItemComponent } from '../types';
-import { basicElement } from './empty';
+import { basicElement } from './basic';
 
 export const defaultLists: Record<'number' | 'bullet', PortableTextListComponent> = {
   number: basicElement('ol'),

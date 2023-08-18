@@ -74,5 +74,8 @@
   "peerDependencies": {
     "vue": "^3.3.4"
   },
-  "packageManager": "pnpm@8.6.5"
+  "packageManager": "pnpm@8.6.5",
+  "publishConfig": {
+    "registry": "http://localhost:4873"
+  }
 }
