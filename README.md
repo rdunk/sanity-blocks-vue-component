@@ -1,6 +1,9 @@
+## **⚠️ Note:** This package is deprecated. Please use [@portabletext/vue](https://github.com/portabletext/vue-portabletext) instead. If you are migrating, refer to [this guide](https://github.com/portabletext/vue-portabletext/blob/main/MIGRATING.md).
+
 <div align="center">
 	<h1>Sanity Blocks Vue Component</h1>
   <p>
+    <img alt="Maintenance Status" src="https://img.shields.io/maintenance/deprecated/2023.svg?color=000&style=flat-square">
     <img alt="NPM version" src="https://img.shields.io/npm/v/sanity-blocks-vue-component?color=000&style=flat-square">
     <img alt="NPM downloads" src="https://img.shields.io/npm/dm/sanity-blocks-vue-component?color=000&style=flat-square">
     <img alt="GitHub Release Date" src="https://img.shields.io/github/release-date/rdunk/sanity-blocks-vue-component?color=000&style=flat-square">
